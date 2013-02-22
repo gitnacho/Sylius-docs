@@ -1,0 +1,6 @@
+``SyliusSalesBundle``
+=====================
+
+.. note::
+
+    Por escribirse.

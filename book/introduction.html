@@ -1,0 +1,164 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introducción a Sylius &mdash; Sylius en español</title>
+    
+    <link rel="stylesheet" href="../_static/tnp.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="shortcut icon" href="../_static/icotnp.ico"/>
+    <link rel="top" title="Sylius en español" href="../index.html" />
+    <link rel="next" title="Referencia de paquetes" href="../bundles/index.html" />
+    <link rel="prev" title="Symfony" href="symfony.html" /> 
+  </head>
+  <body>
+  <div class="imalogo">
+    
+    <a href="../index.html"><img src="http://gitnacho.github.com/tnp/_static/normaltnp.png" alt="Traducciones de Nacho Pacheco" /></a>
+    <div class="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="esymfony" data-lang="es">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div id="searchbox">
+      <form class="searc " action="../search.html" method="get">
+      <input type="search" name="q" placeholder="Término a buscar" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+    
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../bundles/index.html" title="Referencia de paquetes"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="symfony.html" title="Symfony"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../index.html">Sylius en español</a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduccion-a-sylius">
+<span id="index-0"></span><h1>Introducción a <tt class="docutils literal"><span class="pre">Sylius</span></tt><a class="headerlink" href="#introduccion-a-sylius" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Hay varias maneras en que puedes utilizar <tt class="docutils literal"><span class="pre">Sylius</span></tt> para tu proyecto, pero principalmente hay 2 casos de uso.
+Puedes utilizar tu aplicación principal, personalizar vistas, configurar y empezar el proyecto, o utilizar paquetes independientes para construir una solución que cubra tus más sofisticadas necesidades.</p>
+<div class="section" id="usando-sylius-completo">
+<h2>Usando <tt class="docutils literal"><span class="pre">Sylius</span></tt> completo<a class="headerlink" href="#usando-sylius-completo" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El proyecto <tt class="docutils literal"><span class="pre">Sylius</span></tt> proporciona una <strong>solución de comercio electrónico completa</strong>. En las próximas partes del Libro aprenderás a dominarlo y desarrollar rápidamente tu próximo proyecto. Nuestra aplicación principal llamada <tt class="docutils literal"><span class="pre">Sylius</span></tt> proporciona una solución de tienda <em>web</em> completa y algunas de sus características incluyen:</p>
+<ul class="simple">
+<li>Flexible catálogo de productos, con múltiples variantes por producto, opciones, propiedades (piensa en atributos) y prototipos.</li>
+<li>Motor de categorización, el cual te permite categorizar los productos bajo varias taxonomías, por «Marca», «Categoría» o cualquier otra cosa que puedas imaginar.</li>
+<li>Sistema de seguimiento para el inventario, con el cual puedes seguir cada unidad de tu inventario o desactivar el seguimiento por completo.</li>
+<li>Potente transporte configurable por categoría de envío, medidas de los elementos, peso, gestión de envíos y calculadora de costos personalizable.</li>
+<li>Motor de impuestos, compatible con muchas categorías de diferentes impuestos, tasas y zonas.</li>
+<li>Sistema de pedidos que te permite crear y gestionar tus ventas fácilmente, con opciones superflexibles que pueden servir a muchos propósitos diferentes, desde los impuestos y embarques hasta promociones y completo cambio manual de pedidos.</li>
+<li>Proceso para la realización de pedidos personalizable, construido de diversos pasos reutilizables.</li>
+<li>... ¡y más!</li>
+</ul>
+<p>Si esto es lo que buscabas, ¡estupendo! Pero te tenemos otra gran noticia.
+Todas las características mencionadas anteriormente también están disponibles como paquetes independientes.</p>
+</div>
+<div class="section" id="aprovechando-los-paquetes-sylius">
+<h2>Aprovechando los paquetes <tt class="docutils literal"><span class="pre">Sylius</span></tt><a class="headerlink" href="#aprovechando-los-paquetes-sylius" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Incluso si el objetivo principal del proyecto es proporcionar la solución completa mencionada arriba, construímos todos los paquetes desacoplados e independientes. Cada funcionalidad que quieras usar en la aplicación <tt class="docutils literal"><span class="pre">Sylius</span></tt> principal se puede integrar a tu proyecto existente. También puedes construir una solución a tu medida utilizando estos componentes. (<strong>Paquetes</strong> en el glosario de <em>Symfony2</em>)</p>
+<p>Si tienes una aplicación <em>Symfony2</em>, por ejemplo: Un catálogo de productos, puedes utilizar el <a class="reference internal" href="../bundles/SyliusSalesBundle/index.html"><em>SyliusSalesBundle</em></a> y añadir características para gestionar pedidos.</p>
+<p>Aquí puedes encontrar un índice de la documentación para todos los paquetes disponibles de <tt class="docutils literal"><span class="pre">Sylius</span></tt>:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../bundles/SyliusResourceBundle/index.html"><em>SyliusResourceBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusAssortmentBundle/index.html"><em>SyliusAssortmentBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusCartBundle/index.html"><em>SyliusCartBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusSalesBundle/index.html"><em>SyliusSalesBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusAddressingBundle/index.html"><em>SyliusAddressingBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusInventoryBundle/index.html"><em>SyliusInventoryBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusShippingBundle/index.html"><em>SyliusShippingBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusTaxationBundle/index.html"><em>SyliusTaxationBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusTaxonomiesBundle/index.html"><em>SyliusTaxonomiesBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusSettingsBundle/index.html"><em>SyliusSettingsBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusFlowBundle/index.html"><em>SyliusFlowBundle</em></a></li>
+<li><a class="reference internal" href="../bundles/SyliusBloggerBundle/index.html"><em>SyliusBloggerBundle</em></a></li>
+</ul>
+</div>
+<div class="section" id="consideraciones-finales">
+<h2>Consideraciones finales<a class="headerlink" href="#consideraciones-finales" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ahora, dependiendo de cómo quieras usar <tt class="docutils literal"><span class="pre">Sylius</span></tt>, continúa leyendo el Libro, el cual cubre el uso de la solución completa, o explora la Referencia de paquetes.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div style="width:740px;margin:10px auto;">
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../bundles/index.html" title="Referencia de paquetes"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="symfony.html" title="Symfony"
+             >anterior</a> |</li>
+        <li><a href="../index.html">Sylius en español</a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+   <div style="width: 740px; margin: 0 auto;">
+     <div id="disqus_thread"></div>
+     
+    <div class="footer">
+        &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
+      Actualizado por última vez en Feb 22, 2013.
+      Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+   </div>
+   <script type="text/javascript">
+    var disqus_shortname = 'documentos-mx';
+    var disqus_developer = 1;
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+   </script>
+   <noscript>
+     Por favor activa JavaScript para ver los <a href="http://disqus.com/?ref_noscript">comentarios accionados por Disqus.</a>
+   </noscript>
+
+  </body>
+</html>

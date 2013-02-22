@@ -1,0 +1,219 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Symfony &mdash; Sylius en español</title>
+    
+    <link rel="stylesheet" href="../_static/tnp.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="shortcut icon" href="../_static/icotnp.ico"/>
+    <link rel="top" title="Sylius en español" href="../index.html" />
+    <link rel="next" title="Introducción a Sylius" href="introduction.html" />
+    <link rel="prev" title="Introducción a Sylius" href="introduction.html" /> 
+  </head>
+  <body>
+  <div class="imalogo">
+    
+    <a href="../index.html"><img src="http://gitnacho.github.com/tnp/_static/normaltnp.png" alt="Traducciones de Nacho Pacheco" /></a>
+    <div class="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="esymfony" data-lang="es">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div id="searchbox">
+      <form class="searc " action="../search.html" method="get">
+      <input type="search" name="q" placeholder="Término a buscar" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+    
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Introducción a Sylius"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introducción a Sylius"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../index.html">Sylius en español</a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="symfony">
+<span id="index-0"></span><h1><em>Symfony</em><a class="headerlink" href="#symfony" title="Enlazar permanentemente con este título">¶</a></h1>
+<p><tt class="docutils literal"><span class="pre">Sylius</span></tt> está construido en lo alto de <a class="reference external" href="http://symfony.com">Symfony2</a>, una moderna plataforma para <em>PHP</em>. Si estás familiarizado con esta herramienta, puedes omitir esta rápida introducción sin ningún problema. Te deberías sentir como en casa al trabajar con <tt class="docutils literal"><span class="pre">Sylius</span></tt>.</p>
+<div class="section" id="fundamentos-http">
+<h2>Fundamentos <em>HTTP</em><a class="headerlink" href="#fundamentos-http" title="Enlazar permanentemente con este título">¶</a></h2>
+<p><em>HTTP</em> («Hypertext Transfer Protocol» o mejor dicho el «Protocolo de transferencia de hipertexto») es un lenguaje de texto que permite a dos máquinas comunicarse entre sí.</p>
+<p><em>Symfony2</em> está construido desde el principio en este protocolo.</p>
+<p>Cada vez que algún cliente quiere acceder a una página de la tienda <tt class="docutils literal"><span class="pre">Sylius</span></tt>, todo empieza con una <tt class="docutils literal"><span class="pre">petición</span></tt>.
+Este mensaje de texto, creado por el navegador, es enviado a un servidor, el cual debería regresar una respuesta apropiada.</p>
+<p>En <em>HTTP</em>, el mensaje puede tener la siguente apariencia:</p>
+<div class="highlight-text"><div class="highlight"><pre>GET /products HTTP/1.1
+Host: sylius.com
+Accept: text/html
+User-Agent: Mozilla/5.0 (Macintosh)
+</pre></div>
+</div>
+<p>La <em>URI</em> (p. ej. <tt class="docutils literal"><span class="pre">/</span></tt>, <tt class="docutils literal"><span class="pre">/productos/camiseta-nike</span></tt>) es la ubicación unívoca que identifica el recurso que el cliente quiere. El <em>HTTP</em> le dice a la aplicación qué es lo que el cliente quiere <em>hacer</em> con el recurso.</p>
+<p>Los métodos <em>HTTP</em> son los <em>verbos</em> de la petición y definen las pocas formas más comunes en que puedes actuar sobre el recurso:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><em>GET</em></td>
+<td>Recupera el recurso desde el servidor</td>
+</tr>
+<tr class="row-even"><td><em>POST</em></td>
+<td>Crea un recurso en el servidor</td>
+</tr>
+<tr class="row-odd"><td><em>PUT</em></td>
+<td>Actualiza el recurso en el servidor</td>
+</tr>
+<tr class="row-even"><td><em>DELETE</em></td>
+<td>Elimina el recurso del servidor</td>
+</tr>
+</tbody>
+</table>
+<p>Una petición <em>HTTP</em> de ejemplo para eliminar un producto específico podría tener la siguiente apariencia:</p>
+<div class="highlight-text"><div class="highlight"><pre>DELETE /productos/15 HTTP/1.1
+</pre></div>
+</div>
+<p>Basado en la petición, el servidor regresará una respuesta similar a la siguiente:</p>
+<div class="highlight-text"><div class="highlight"><pre>HTTP/1.1 200 OK
+Date: Sat, 03 Apr 2013 22:25:05 GMT
+Server: lighttpd/1.4.19
+Content-Type: text/html
+
+    &lt;html&gt;
+    &lt;!-- ¡Interesante contenido! --&gt;
+    &lt;/html&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="controladores">
+<h2>Controladores<a class="headerlink" href="#controladores" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Un controlador es una función <em>PHP</em> que tú creas la cual toma información de la petición <em>HTTP</em>, luego construye y regresa una respuesta <em>HTTP</em>.
+La respuesta podría ser una página <em>HTML</em> representando un producto, un documento <em>XML</em> con todas la información sobre un pedido particular, una representación <em>JSON</em> serializada de un producto, una imagen, una redirección, un error 404...</p>
+<p>El siguiente controlador reproducirá una página que simplemente imprime <tt class="docutils literal"><span class="pre">Hello</span> <span class="pre">world!</span></tt>:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">helloAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Hello world!&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Cada página que ves en la tienda <tt class="docutils literal"><span class="pre">Sylius</span></tt> es el resultado de una acción del controlador.
+Cuando ves la página de un producto, enumeras todos los productos o exhibes el formulario de inicio de sesión, siempre es el resultado de este sencillo esquema, donde el controlador crea una <tt class="docutils literal"><span class="pre">Respuesta</span></tt> basándose en la <tt class="docutils literal"><span class="pre">Petición</span></tt> actual.</p>
+</div>
+<div class="section" id="enrutado">
+<h2>Enrutado<a class="headerlink" href="#enrutado" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Por escribirse.</p>
+</div>
+</div>
+<div class="section" id="twig-motor-de-plantillas">
+<h2><em>Twig</em> &#8212; motor de plantillas<a class="headerlink" href="#twig-motor-de-plantillas" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Por escribirse.</p>
+</div>
+</div>
+<div class="section" id="consideraciones-finales">
+<h2>Consideraciones finales<a class="headerlink" href="#consideraciones-finales" title="Enlazar permanentemente con este título">¶</a></h2>
+<p><em>Symfony2</em> es una plataforma para aplicaciones <em>web</em> muy flexible. Para trabajar con <tt class="docutils literal"><span class="pre">Sylius</span></tt> sólo necesitas conocer los fundamentos, pero te animamos a aprender más sobre esta increíble herramienta.
+Entenderás mejor cómo se usa <tt class="docutils literal"><span class="pre">Sylius</span></tt>, dicho conocimiento te permitirá crear proyectos de comercio electrónico realmente avanzados.</p>
+</div>
+<div class="section" id="aprende-mas-en-la-documentacion-de-symfony">
+<h2>Aprende más en la documentación de <em>Symfony</em><a class="headerlink" href="#aprende-mas-en-la-documentacion-de-symfony" title="Enlazar permanentemente con este título">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://gitnacho.github.com/symfony-docs-es/book/http_fundamentals.html">Symfony2 y fundamentos HTTP</a></li>
+<li><a class="reference external" href="http://gitnacho.github.com/symfony-docs-es/book/controller.html">Controlador</a></li>
+<li><a class="reference external" href="http://gitnacho.github.com/symfony-docs-es/book/routing.html">Enrutando</a></li>
+<li><a class="reference external" href="http://gitnacho.github.com/symfony-docs-es/book/templating.html">Plantillas y Twig</a></li>
+<li><a class="reference external" href="http://gitnacho.github.com/symfony-docs-es/book/doctrine.html">Bases de datos y Doctrine</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div style="width:740px;margin:10px auto;">
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Introducción a Sylius"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introducción a Sylius"
+             >anterior</a> |</li>
+        <li><a href="../index.html">Sylius en español</a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+   <div style="width: 740px; margin: 0 auto;">
+     <div id="disqus_thread"></div>
+     
+    <div class="footer">
+        &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
+      Actualizado por última vez en Feb 22, 2013.
+      Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+   </div>
+   <script type="text/javascript">
+    var disqus_shortname = 'documentos-mx';
+    var disqus_developer = 1;
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+   </script>
+   <noscript>
+     Por favor activa JavaScript para ver los <a href="http://disqus.com/?ref_noscript">comentarios accionados por Disqus.</a>
+   </noscript>
+
+  </body>
+</html>

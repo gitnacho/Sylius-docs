@@ -1,0 +1,106 @@
+.. index::
+   single: Symfony
+
+*Symfony*
+=========
+
+``Sylius`` está construido en lo alto de `Symfony2 <http://symfony.com>`_, una moderna plataforma para *PHP*. Si estás familiarizado con esta herramienta, puedes omitir esta rápida introducción sin ningún problema. Te deberías sentir como en casa al trabajar con ``Sylius``.
+
+Fundamentos *HTTP*
+------------------
+
+*HTTP* («Hypertext Transfer Protocol» o mejor dicho el «Protocolo de transferencia de hipertexto») es un lenguaje de texto que permite a dos máquinas comunicarse entre sí.
+
+*Symfony2* está construido desde el principio en este protocolo.
+
+Cada vez que algún cliente quiere acceder a una página de la tienda ``Sylius``, todo empieza con una ``petición``.
+Este mensaje de texto, creado por el navegador, es enviado a un servidor, el cual debería regresar una respuesta apropiada.
+
+En *HTTP*, el mensaje puede tener la siguente apariencia:
+
+.. code-block:: text
+
+    GET /products HTTP/1.1
+    Host: sylius.com
+    Accept: text/html
+    User-Agent: Mozilla/5.0 (Macintosh)
+
+La *URI* (p. ej. ``/``, ``/productos/camiseta-nike``) es la ubicación unívoca que identifica el recurso que el cliente quiere. El *HTTP* le dice a la aplicación qué es lo que el cliente quiere *hacer* con el recurso. 
+
+Los métodos *HTTP* son los *verbos* de la petición y definen las pocas formas más comunes en que puedes actuar sobre el recurso:
+
++----------+---------------------------------------+
+| *GET*    | Recupera el recurso desde el servidor |
++----------+---------------------------------------+
+| *POST*   | Crea un recurso en el servidor        |
++----------+---------------------------------------+
+| *PUT*    | Actualiza el recurso en el servidor   |
++----------+---------------------------------------+
+| *DELETE* | Elimina el recurso del servidor       |
++----------+---------------------------------------+
+
+Una petición *HTTP* de ejemplo para eliminar un producto específico podría tener la siguiente apariencia:
+
+.. code-block:: text
+
+    DELETE /productos/15 HTTP/1.1
+
+Basado en la petición, el servidor regresará una respuesta similar a la siguiente:
+
+.. code-block:: text
+
+    HTTP/1.1 200 OK
+    Date: Sat, 03 Apr 2013 22:25:05 GMT
+    Server: lighttpd/1.4.19
+    Content-Type: text/html
+
+        <html>
+        <!-- ¡Interesante contenido! -->
+        </html>
+
+Controladores
+-------------
+
+Un controlador es una función *PHP* que tú creas la cual toma información de la petición *HTTP*, luego construye y regresa una respuesta *HTTP*. 
+La respuesta podría ser una página *HTML* representando un producto, un documento *XML* con todas la información sobre un pedido particular, una representación *JSON* serializada de un producto, una imagen, una redirección, un error 404...
+
+El siguiente controlador reproducirá una página que simplemente imprime ``Hello world!``::
+
+    use Symfony\Component\HttpFoundation\Response;
+
+    public function helloAction()
+    {
+        return new Response('Hello world!');
+    }
+
+Cada página que ves en la tienda ``Sylius`` es el resultado de una acción del controlador.
+Cuando ves la página de un producto, enumeras todos los productos o exhibes el formulario de inicio de sesión, siempre es el resultado de este sencillo esquema, donde el controlador crea una ``Respuesta`` basándose en la ``Petición`` actual.
+
+Enrutado
+--------
+
+.. note::
+
+    Por escribirse.
+
+*Twig* --- motor de plantillas
+------------------------------
+
+.. note::
+
+    Por escribirse.
+
+Consideraciones finales
+-----------------------
+
+*Symfony2* es una plataforma para aplicaciones *web* muy flexible. Para trabajar con ``Sylius`` sólo necesitas conocer los fundamentos, pero te animamos a aprender más sobre esta increíble herramienta. 
+Entenderás mejor cómo se usa ``Sylius``, dicho conocimiento te permitirá crear proyectos de comercio electrónico realmente avanzados.
+
+Aprende más en la documentación de *Symfony*
+--------------------------------------------
+
+* `Symfony2 y fundamentos HTTP <http://gitnacho.github.com/symfony-docs-es/book/http_fundamentals.html>`_
+* `Controlador <http://gitnacho.github.com/symfony-docs-es/book/controller.html>`_
+* `Enrutando <http://gitnacho.github.com/symfony-docs-es/book/routing.html>`_
+* `Plantillas y Twig <http://gitnacho.github.com/symfony-docs-es/book/templating.html>`_
+* `Bases de datos y Doctrine <http://gitnacho.github.com/symfony-docs-es/book/doctrine.html>`_

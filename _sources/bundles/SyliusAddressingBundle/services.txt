@@ -1,0 +1,55 @@
+Usando los servicios
+====================
+
+Al utilizar el paquete, tienes acceso a varios útiles servicios.
+
+Gestores y repositorios
+-----------------------
+
+.. note::
+
+    ``Sylius`` usa la interfaz ``Doctrine\Common\Persistence``.
+
+Tienes acceso a los siguientes servicios usados para gestionar y recuperar recursos.
+
+Este conjunto de servicios predefinidos se comparte a través de casi todos los paquetes de ``Sylius``, pero esto solamente es una convención.
+Interactúas con ellos como normalmente lo haces con tus propias entidades en tu proyecto.
+
+.. code-block:: php
+
+    <?php
+
+    // ...
+    public function saveAction(Request $request)
+    {
+        // el ObjectManager es capaz de gestionar el recurso Address.
+        // Para el controlador *doctrine/orm* este es el EntityManager.
+        $this->get('sylius_addressing.manager.address'); 
+
+        // el ObjectRepository para el recurso Address, extiende el
+        // EntityRepository base.
+        // Puedes utilizar la entidad como habitualmente lo hace el
+        // repositorio en el proyecto.
+        $this->get('sylius_addressing.repository.address'); 
+
+        // el mismo par para otros recursos de País, Provincia, Zona...
+
+        // Estos repositorios tienen algunos métodos útiles predefinidos,
+        // por ejemplo...
+        $address = $addressRepository->createNew();
+    }
+
+``ZoneMatcher``
+---------------
+
+Debido a que las zonas normalmente se utilizan para calcular el impuesto y embarque, puedes utilizar este servicio para conseguir emparejar mejor la zona para una determinada dirección.
+Entonces puedes aplicar el impuesto calculado a la zona emparejada.
+
+.. code-block:: php
+
+    <?php
+
+    // ...
+    $zoneMatcher = $this->get('sylius_addressing.zone_matcher');
+
+    $zone = $zoneMatcher->match($address);

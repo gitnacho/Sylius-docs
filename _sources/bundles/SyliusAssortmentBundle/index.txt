@@ -1,0 +1,6 @@
+``SyliusAssortmentBundle``
+==========================
+
+.. note::
+
+    Por escribirse.

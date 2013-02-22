@@ -1,0 +1,29 @@
+Usando los servicios
+====================
+
+Al utilizar el paquete, tienes acceso a varios útiles servicios.
+
+``AvailabilityChecker``
+-----------------------
+
+El nombre habla por sí mismo, este servico comprueba la disponibilidad del objeto ``inventariable`` dado.
+Este tiene en cuenta pedidos pendientes, por lo tanto si los pedidos pendientes están habilitados, ``inventariable`` siempre estará disponible.
+Puedes habilitar los pedidos pendientes por cada ``inventariable`` si están disponible bajo demanda.
+Si ninguno de estos es el caso, significa que los pedidos pendientes no están habilitados para el ``inventariable`` dado y ``AvailabilityChecker`` confiará en el nivel de existencias actual.
+
+Hay dos métodos para comprobar la disponibilidad.
+``->isStockAvailable()`` solo comprueba si el objeto ``inventariable`` está disponible en existencias y no le preocupa la cantidad.
+``->isStockSufficient()`` comprueba si hay suficientes unidades en existencia para la cantidad dada.
+
+``InventoryOperator``
+---------------------
+
+El operador de inventario es el corazón de este paquete. Este se puede usar para gestionar los niveles de existencias y las unidades en el inventario.
+También puede llenar pedidos pendientes para los ``inventariables`` dados, esta es una muy potente característica en combinación con ``InventoryChangeListener``.
+Crear/destruir unidades del inventario con el estado dado también es trabajo de los operadores.
+
+``InventoryChangeListener``
+---------------------------
+
+Este simplemente lanza la ``InventoryOperatorInterface::fillBackorders()``. Esta se puede extender implementando la ``InventoryChangeListenerInterface``.
+Los eventos se pueden configurar como se explica en el :doc:`summary`.

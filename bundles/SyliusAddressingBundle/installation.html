@@ -1,0 +1,231 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Instalando &mdash; Sylius en español</title>
+    
+    <link rel="stylesheet" href="../../_static/tnp.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="shortcut icon" href="../../_static/icotnp.ico"/>
+    <link rel="top" title="Sylius en español" href="../../index.html" />
+    <link rel="up" title="SyliusAddressingBundle" href="index.html" />
+    <link rel="next" title="2. Modelos" href="models.html" />
+    <link rel="prev" title="SyliusAddressingBundle" href="index.html" /> 
+  </head>
+  <body>
+  <div class="imalogo">
+    
+    <a href="../../index.html"><img src="http://gitnacho.github.com/tnp/_static/normaltnp.png" alt="Traducciones de Nacho Pacheco" /></a>
+    <div class="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="esymfony" data-lang="es">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div id="searchbox">
+      <form class="searc " action="../../search.html" method="get">
+      <input type="search" name="q" placeholder="Término a buscar" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+    
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="models.html" title="2. Modelos"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="SyliusAddressingBundle"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal"><span class="pre">SyliusAddressingBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="instalando">
+<h1>1. Instalando<a class="headerlink" href="#instalando" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Suponemos que estás familiarizado con <a class="reference external" href="http://packagist.org">Composer</a>, un gestor de dependencias para <em>PHP</em>.</p>
+<p>Usa la siguiente orden para añadir el paquete a tu archivo <tt class="file docutils literal"><span class="pre">composer.json</span></tt> y descargarlo.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>composer require sylius/addressing-bundle:*
+</pre></div>
+</div>
+<div class="section" id="anadiendo-al-nucleo-los-paquetes-necesarios">
+<h2>1.1. Añadiendo al núcleo los paquetes necesarios<a class="headerlink" href="#anadiendo-al-nucleo-los-paquetes-necesarios" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Primero, debes habilitar el paquete dentro del núcleo.
+Si no estás utilizando ningún otro paquete <tt class="docutils literal"><span class="pre">Sylius</span></tt>, también necesitarás añadir al núcleo el <tt class="docutils literal"><span class="pre">SyliusResourceBundle</span></tt> y sus dependencias.
+No te preocupes, todo será instalado automáticamente vía <em>Composer</em>.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// app/AppKernel.php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">registerBundles</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$bundles</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="c1">// ...</span>
+        <span class="k">new</span> <span class="nx">FOS\RestBundle\FOSRestBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">JMS\SerializerBundle\JMSSerializerBundle</span><span class="p">(</span><span class="nv">$this</span><span class="p">),</span>
+        <span class="k">new</span> <span class="nx">Sylius\Bundle\ResourceBundle\SyliusResourceBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Sylius\Bundle\AddressingBundle\SyliusAddressingBundle</span><span class="p">(),</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configurando-el-contenedor">
+<h2>1.2. Configurando el contenedor<a class="headerlink" href="#configurando-el-contenedor" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Coloca esta configuración dentro de tu archivo <tt class="file docutils literal"><span class="pre">app/config/config.yml</span></tt>.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">sylius_addressing</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">driver</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">doctrine/orm</span> <span class="c1"># Configura el controlador del orm de doctrine usado en la documentación.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configurando-el-enrutado">
+<h2>1.3. Configurando el enrutado<a class="headerlink" href="#configurando-el-enrutado" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Aquí te mostramos un ejemplo de cómo puedes configurar el enrutado.
+El enrutado está basado en <tt class="docutils literal"><span class="pre">SyliusResourceBundle</span></tt>.</p>
+<p>Añade lo siguiente al archivo <tt class="file docutils literal"><span class="pre">app/config/routing.yml</span></tt>.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">sylius_address_list</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/address/list</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">_controller</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sylius_addressing.controller.address:getCollectionAction</span>
+        <span class="l-Scalar-Plain">_sylius.resource</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">AcmeDemoBundle:Address:list.html.twig</span>
+            <span class="l-Scalar-Plain">sortable</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+            <span class="l-Scalar-Plain">sorting</span><span class="p-Indicator">:</span>
+                <span class="l-Scalar-Plain">updatedAt</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">desc</span>
+
+<span class="l-Scalar-Plain">sylius_address_create</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/address/create</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">_controller</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sylius_addressing.controller.address:createAction</span>
+        <span class="l-Scalar-Plain">_sylius.resource</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">AcmeDemoBundle:Address:create.html.twig</span>
+            <span class="l-Scalar-Plain">redirect</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sylius_address_show</span>
+
+<span class="l-Scalar-Plain">sylius_address_update</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/address/{id}/update</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">_controller</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sylius_addressing.controller.address:updateAction</span>
+        <span class="l-Scalar-Plain">_sylius.resource</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">AcmeDemoBundle:Address:update.html.twig</span>
+            <span class="l-Scalar-Plain">redirect</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sylius_address_show</span>
+
+<span class="l-Scalar-Plain">sylius_address_delete</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/address/{id}/delete</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">_controller</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sylius_addressing.controller.address:deleteAction</span>
+        <span class="l-Scalar-Plain">_sylius.resource</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">redirect</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sylius_address_list</span>
+
+<span class="l-Scalar-Plain">sylius_address_show</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/address/{id}</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">_controller</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sylius_addressing.controller.address:getAction</span>
+        <span class="l-Scalar-Plain">_sylius.resource</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">AcmeDemoBundle:Address:show.html.twig</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="actualizando-el-esquema-de-la-base-de-datos">
+<h2>1.4. Actualizando el esquema de la base de datos<a class="headerlink" href="#actualizando-el-esquema-de-la-base-de-datos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Recuerda actualizar el esquema de tu base de datos.</p>
+<p>Para el controlador de «<tt class="docutils literal"><span class="pre">doctrine/orm</span></tt>» ejecuta la siguiente orden:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php app/console doctrine:schema:update --force
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last">¡Esto sólo se debería hacer en el entorno <tt class="docutils literal"><span class="pre">dev</span></tt>! Te recomendamos utilizar las migraciones de <em>Doctrine</em>, para actualizar tu esquema sin incidentes.</p>
+</div>
+</div>
+<div class="section" id="plantillas">
+<h2>1.5. Plantillas<a class="headerlink" href="#plantillas" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Creemos que proporcionar una razonable plantilla predefinida es realmente difícil.
+Esta es la razón por la cual actualmente no incluimos ninguna, pero si tienes una idea para una buena plantilla inicial, ¡háznolo saber!</p>
+<p>El paquete requiere las plantillas <tt class="docutils literal"><span class="pre">list</span></tt>, <tt class="docutils literal"><span class="pre">create</span></tt>, <tt class="docutils literal"><span class="pre">update</span></tt> y <tt class="docutils literal"><span class="pre">show</span></tt> para direcciones, y otras similares para las zonas.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Puedes utilizar las plantillas de nuestra <a class="reference external" href="https://github.com/Sylius/Sylius-Sandbox/tree/master/src/Sylius/Bundle/SandboxBundle/Resources/views/Backend/Address">aplicación del entorno de pruebas</a> para inspirarte.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div style="width:740px;margin:10px auto;">
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="models.html" title="2. Modelos"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="SyliusAddressingBundle"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal"><span class="pre">SyliusAddressingBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+   <div style="width: 740px; margin: 0 auto;">
+     <div id="disqus_thread"></div>
+     
+    <div class="footer">
+        &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
+      Actualizado por última vez en Feb 22, 2013.
+      Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+   </div>
+   <script type="text/javascript">
+    var disqus_shortname = 'documentos-mx';
+    var disqus_developer = 1;
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+   </script>
+   <noscript>
+     Por favor activa JavaScript para ver los <a href="http://disqus.com/?ref_noscript">comentarios accionados por Disqus.</a>
+   </noscript>
+
+  </body>
+</html>

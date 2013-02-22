@@ -1,0 +1,53 @@
+El ``Cart`` y ``CartItem``
+==========================
+
+Aquí tienes una referencia rápida de qué pueden hacer por ti los modelos predefinidos.
+
+``Cart``
+--------
+
+Puedes acceder al valor total del carrito de compra utilizando el método ``->getTotal()``. El número desnormalizado de elementos del carrito de compra está disponible vía el método ``->getTotalItems()``.
+Puedes recalcular los totales llamando al método ``->calculateTotal()``, utilizando la aritmética más sencilla posible. Este también actualizará los totales por elemento.
+El carrito tiene su tiempo de expiración --- ``->getExpiresAt()`` devuelve el tiempo e ``->incrementExpiresAt()`` por omisión lo pone a +3 horas a partir de ese momento.
+La colección de elementos (Implementando la interfaz ``Doctrine\Common\Collections\Collection``) se puede obtener utilizando el método ``->getItems()``.
+
+``CartItem``
+------------
+
+Justo para el carrito, el total está disponible vía el mismo método, pero el precio unitario está accesible usando el método ``->getUnitPrice()``. Cada elemento también puede calcular su total, utilizando la cantidad (``->getQuantity()``) y el precio unitario.
+También tienes un método muy importante llamado ``->equals(CartItemInterface $item)``, el cual decide si los elementos son los «mismos» o no.
+Si son, tiene que regresar ``true``, ``false`` en caso contrario. Esto se toma en cuenta cuando añades elementos al carrito.
+**Si el elemento añadido es igual a uno existente, sus cantidades se suman, pero no se añade al carrito el nuevo elemento**.
+De manera predeterminada, compara los ``ids``, pero para nuestro ejemplo preferimos comprobar los productos. Fácilmente podemos modificar nuestra entidad ``CartItem`` para hacerlo correctamente.
+
+.. code-block:: php
+
+    <?php
+
+    // src/App/AppBundle/Entity/CartItem.php
+    namespace App/AppBundle/Entity;
+
+    use Sylius\Bundle\CartBundle\Entity\CartItem as BaseCartItem;
+    use Sylius\Bundle\CartBundle\Model\CartItemInterface;
+
+    class CartItem extends BaseCartItem
+    {
+        private $product;
+
+        public function getProduct()
+        {
+            return $this->product;
+        }
+
+        public function setProduct(Product $product)
+        {
+            $this->product = $product;
+        }
+
+        public function equals(CartItemInterface $item)
+        {
+            return $this->product === $item->getProduct();
+        }
+    }
+
+Si el usuario intenta añadir un mismo producto dos o más veces, este únicamente suma las cantidades, en vez de añadir duplicados al carrito.

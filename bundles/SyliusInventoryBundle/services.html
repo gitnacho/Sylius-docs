@@ -1,0 +1,149 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Usando los servicios &mdash; Sylius en español</title>
+    
+    <link rel="stylesheet" href="../../_static/tnp.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="shortcut icon" href="../../_static/icotnp.ico"/>
+    <link rel="top" title="Sylius en español" href="../../index.html" />
+    <link rel="up" title="SyliusInventoryBundle" href="index.html" />
+    <link rel="next" title="4. Extensión Twig" href="extension.html" />
+    <link rel="prev" title="2. Modelos" href="models.html" /> 
+  </head>
+  <body>
+  <div class="imalogo">
+    
+    <a href="../../index.html"><img src="http://gitnacho.github.com/tnp/_static/normaltnp.png" alt="Traducciones de Nacho Pacheco" /></a>
+    <div class="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="esymfony" data-lang="es">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div id="searchbox">
+      <form class="searc " action="../../search.html" method="get">
+      <input type="search" name="q" placeholder="Término a buscar" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+    
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="extension.html" title="4. Extensión Twig"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="2. Modelos"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusInventoryBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="usando-los-servicios">
+<h1>3. Usando los servicios<a class="headerlink" href="#usando-los-servicios" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Al utilizar el paquete, tienes acceso a varios útiles servicios.</p>
+<div class="section" id="availabilitychecker">
+<h2>3.1. <tt class="docutils literal"><span class="pre">AvailabilityChecker</span></tt><a class="headerlink" href="#availabilitychecker" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El nombre habla por sí mismo, este servico comprueba la disponibilidad del objeto <tt class="docutils literal"><span class="pre">inventariable</span></tt> dado.
+Este tiene en cuenta pedidos pendientes, por lo tanto si los pedidos pendientes están habilitados, <tt class="docutils literal"><span class="pre">inventariable</span></tt> siempre estará disponible.
+Puedes habilitar los pedidos pendientes por cada <tt class="docutils literal"><span class="pre">inventariable</span></tt> si están disponible bajo demanda.
+Si ninguno de estos es el caso, significa que los pedidos pendientes no están habilitados para el <tt class="docutils literal"><span class="pre">inventariable</span></tt> dado y <tt class="docutils literal"><span class="pre">AvailabilityChecker</span></tt> confiará en el nivel de existencias actual.</p>
+<p>Hay dos métodos para comprobar la disponibilidad.
+<tt class="docutils literal"><span class="pre">-&gt;isStockAvailable()</span></tt> solo comprueba si el objeto <tt class="docutils literal"><span class="pre">inventariable</span></tt> está disponible en existencias y no le preocupa la cantidad.
+<tt class="docutils literal"><span class="pre">-&gt;isStockSufficient()</span></tt> comprueba si hay suficientes unidades en existencia para la cantidad dada.</p>
+</div>
+<div class="section" id="inventoryoperator">
+<h2>3.2. <tt class="docutils literal"><span class="pre">InventoryOperator</span></tt><a class="headerlink" href="#inventoryoperator" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El operador de inventario es el corazón de este paquete. Este se puede usar para gestionar los niveles de existencias y las unidades en el inventario.
+También puede llenar pedidos pendientes para los <tt class="docutils literal"><span class="pre">inventariables</span></tt> dados, esta es una muy potente característica en combinación con <tt class="docutils literal"><span class="pre">InventoryChangeListener</span></tt>.
+Crear/destruir unidades del inventario con el estado dado también es trabajo de los operadores.</p>
+</div>
+<div class="section" id="inventorychangelistener">
+<h2>3.3. <tt class="docutils literal"><span class="pre">InventoryChangeListener</span></tt><a class="headerlink" href="#inventorychangelistener" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Este simplemente lanza la <tt class="docutils literal"><span class="pre">InventoryOperatorInterface::fillBackorders()</span></tt>. Esta se puede extender implementando la <tt class="docutils literal"><span class="pre">InventoryChangeListenerInterface</span></tt>.
+Los eventos se pueden configurar como se explica en el <a class="reference internal" href="summary.html"><em>Resumen</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div style="width:740px;margin:10px auto;">
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="extension.html" title="4. Extensión Twig"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="2. Modelos"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusInventoryBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+   <div style="width: 740px; margin: 0 auto;">
+     <div id="disqus_thread"></div>
+     
+    <div class="footer">
+        &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
+      Actualizado por última vez en Feb 22, 2013.
+      Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+   </div>
+   <script type="text/javascript">
+    var disqus_shortname = 'documentos-mx';
+    var disqus_developer = 1;
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+   </script>
+   <noscript>
+     Por favor activa JavaScript para ver los <a href="http://disqus.com/?ref_noscript">comentarios accionados por Disqus.</a>
+   </noscript>
+
+  </body>
+</html>

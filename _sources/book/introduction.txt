@@ -1,0 +1,41 @@
+.. index::
+   single: Introducción
+
+Introducción a ``Sylius``
+=========================
+
+Hay varias maneras en que puedes utilizar ``Sylius`` para tu proyecto, pero principalmente hay 2 casos de uso.
+Puedes utilizar tu aplicación principal, personalizar vistas, configurar y empezar el proyecto, o utilizar paquetes independientes para construir una solución que cubra tus más sofisticadas necesidades.
+
+Usando ``Sylius`` completo
+--------------------------
+
+El proyecto ``Sylius`` proporciona una **solución de comercio electrónico completa**. En las próximas partes del Libro aprenderás a dominarlo y desarrollar rápidamente tu próximo proyecto. Nuestra aplicación principal llamada ``Sylius`` proporciona una solución de tienda *web* completa y algunas de sus características incluyen:
+
+* Flexible catálogo de productos, con múltiples variantes por producto, opciones, propiedades (piensa en atributos) y prototipos.
+* Motor de categorización, el cual te permite categorizar los productos bajo varias taxonomías, por «Marca», «Categoría» o cualquier otra cosa que puedas imaginar.
+* Sistema de seguimiento para el inventario, con el cual puedes seguir cada unidad de tu inventario o desactivar el seguimiento por completo.
+* Potente transporte configurable por categoría de envío, medidas de los elementos, peso, gestión de envíos y calculadora de costos personalizable.
+* Motor de impuestos, compatible con muchas categorías de diferentes impuestos, tasas y zonas.
+* Sistema de pedidos que te permite crear y gestionar tus ventas fácilmente, con opciones superflexibles que pueden servir a muchos propósitos diferentes, desde los impuestos y embarques hasta promociones y completo cambio manual de pedidos.
+* Proceso para la realización de pedidos personalizable, construido de diversos pasos reutilizables.
+* ... ¡y más!
+
+Si esto es lo que buscabas, ¡estupendo! Pero te tenemos otra gran noticia.
+Todas las características mencionadas anteriormente también están disponibles como paquetes independientes.
+
+Aprovechando los paquetes ``Sylius``
+------------------------------------
+
+Incluso si el objetivo principal del proyecto es proporcionar la solución completa mencionada arriba, construímos todos los paquetes desacoplados e independientes. Cada funcionalidad que quieras usar en la aplicación ``Sylius`` principal se puede integrar a tu proyecto existente. También puedes construir una solución a tu medida utilizando estos componentes. (**Paquetes** en el glosario de *Symfony2*)
+
+Si tienes una aplicación *Symfony2*, por ejemplo: Un catálogo de productos, puedes utilizar el :doc:`SyliusSalesBundle </bundles/SyliusSalesBundle/index>` y añadir características para gestionar pedidos.
+
+Aquí puedes encontrar un índice de la documentación para todos los paquetes disponibles de ``Sylius``:
+
+.. include:: /bundles/map.rst.inc
+
+Consideraciones finales
+-----------------------
+
+Ahora, dependiendo de cómo quieras usar ``Sylius``, continúa leyendo el Libro, el cual cubre el uso de la solución completa, o explora la Referencia de paquetes.

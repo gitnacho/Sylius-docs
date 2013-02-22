@@ -1,0 +1,198 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Usando los servicios &mdash; Sylius en español</title>
+    
+    <link rel="stylesheet" href="../../_static/tnp.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="shortcut icon" href="../../_static/icotnp.ico"/>
+    <link rel="top" title="Sylius en español" href="../../index.html" />
+    <link rel="up" title="SyliusCartBundle" href="index.html" />
+    <link rel="next" title="5. En plantillas" href="templating.html" />
+    <link rel="prev" title="3. Enrutado y acciones predefinidas" href="actions.html" /> 
+  </head>
+  <body>
+  <div class="imalogo">
+    
+    <a href="../../index.html"><img src="http://gitnacho.github.com/tnp/_static/normaltnp.png" alt="Traducciones de Nacho Pacheco" /></a>
+    <div class="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="esymfony" data-lang="es">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div id="searchbox">
+      <form class="searc " action="../../search.html" method="get">
+      <input type="search" name="q" placeholder="Término a buscar" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+    
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="templating.html" title="5. En plantillas"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="actions.html" title="3. Enrutado y acciones predefinidas"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusCartBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="usando-los-servicios">
+<h1>4. Usando los servicios<a class="headerlink" href="#usando-los-servicios" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Al utilizar el paquete, tienes acceso a varios útiles servicios.
+Los puedes utilizar para manipular y gestionar el carrito de compra.</p>
+<div class="section" id="gestores-y-repositorios">
+<h2>4.1. Gestores y repositorios<a class="headerlink" href="#gestores-y-repositorios" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last"><tt class="docutils literal"><span class="pre">Sylius</span></tt> usa la interfaz <tt class="docutils literal"><span class="pre">Doctrine\Common\Persistence</span></tt>.</p>
+</div>
+<p>Tienes acceso a los siguientes servicios usados para gestionar y recuperar recursos.</p>
+<p>Este conjunto de servicios predefinidos se comparte a través de casi todos los paquetes de <tt class="docutils literal"><span class="pre">Sylius</span></tt>, pero esto solamente es una convención.
+Interactúas con ellos como normalmente lo haces con tus propias entidades en tu proyecto.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// ...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">saveAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// ObjectManager el cual es capaz de gestionar el recurso del Carrito.</span>
+    <span class="c1">// Para el controlador *doctrine/orm* este es el EntityManager.</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.manager.cart&#39;</span><span class="p">);</span>
+
+    <span class="c1">// ObjectRepository para el recurso del Carrito, extiende al EntityRepository base.</span>
+    <span class="c1">// Puedes utilizar la entidad como habitualmente lo hace el</span>
+    <span class="c1">// repositorio en el proyecto.</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.repository.cart&#39;</span><span class="p">);</span>
+
+    <span class="c1">// El mismo par del recurso CartItem.</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.manager.cart_item&#39;</span><span class="p">);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.repository.cart_item&#39;</span><span class="p">);</span>
+
+    <span class="c1">// Estos repositorios tienen algunos convenientes métodos predefinidos, por ejemplo...</span>
+    <span class="nv">$item</span> <span class="o">=</span> <span class="nv">$itemRepository</span><span class="o">-&gt;</span><span class="na">createNew</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="proveedor-y-resolutor">
+<h2>4.2. Proveedor y resolutor<a class="headerlink" href="#proveedor-y-resolutor" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>También hay tres servicios más para ti.</p>
+<p>Utilizas el proveedor para obtener el carrito del usuario actual, si no hay ninguno, se crea y guarda uno nuevo.
+El método <tt class="docutils literal"><span class="pre">-&gt;setCart()</span></tt> también te permite reemplazar el carrito actual.
+<tt class="docutils literal"><span class="pre">-&gt;abandonCart()</span></tt> reinicia el carrito actual, creará uno nuevo en la próxima llamada a <tt class="docutils literal"><span class="pre">-&gt;getCart()</span></tt>.
+Este es útil, por ejemplo, cuándo después de completado un pedido quieres iniciar con un nuevo carrito.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// ...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">saveAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$provider</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.cart_provider&#39;</span><span class="p">);</span> <span class="c1">// Implementa la CartProviderInterface.</span>
+
+    <span class="nv">$currentCart</span> <span class="o">=</span> <span class="nv">$provider</span><span class="o">-&gt;</span><span class="na">getCart</span><span class="p">();</span>
+    <span class="nv">$provider</span><span class="o">-&gt;</span><span class="na">setCart</span><span class="p">(</span><span class="nv">$customCart</span><span class="p">);</span>
+    <span class="nv">$provider</span><span class="o">-&gt;</span><span class="na">abandonCart</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Usa el resolutor para crear un nuevo elemento basándose en la petición del usuario.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// ...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">addItemAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$resolver</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.cart_resolver&#39;</span><span class="p">);</span>
+    <span class="nv">$item</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">resolve</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createNew</span><span class="p">(),</span> <span class="nv">$request</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Un ejemplo más avanzado de la implementación del resolutor está disponible en la aplicación <a class="reference external" href="https://github.com/Sylius/Sylius-Sandbox/blob/master/src/Sylius/Bundle/SandboxBundle/Resolver/ItemResolver.php">del entorno de pruebas Sylius en GitHub</a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div style="width:740px;margin:10px auto;">
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="templating.html" title="5. En plantillas"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="actions.html" title="3. Enrutado y acciones predefinidas"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusCartBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+   <div style="width: 740px; margin: 0 auto;">
+     <div id="disqus_thread"></div>
+     
+    <div class="footer">
+        &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
+      Actualizado por última vez en Feb 22, 2013.
+      Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+   </div>
+   <script type="text/javascript">
+    var disqus_shortname = 'documentos-mx';
+    var disqus_developer = 1;
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+   </script>
+   <noscript>
+     Por favor activa JavaScript para ver los <a href="http://disqus.com/?ref_noscript">comentarios accionados por Disqus.</a>
+   </noscript>
+
+  </body>
+</html>

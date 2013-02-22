@@ -1,0 +1,14 @@
+Extensión *Twig*
+================
+
+Hay empacadas dos convenientes funciones *Twig*: `sylius_inventory_is_available` y `sylius_inventory_is_sufficient`.
+
+Son sencillas delegadas para comprobar la disponibilidad, y las puedes usar para mostrar si el objeto está disponible o hay suficiente en existencia.
+
+Aquí tienes un sencillo ejemplo, ten en cuenta que la variable ``producto`` tiene que ser una instancia de ``StockableInterface``.
+
+.. code-block:: jinja
+
+    {% if not sylius_inventory_is_available(product) %}
+        <span class="label label-important">out of stock</span>
+    {% endif %}

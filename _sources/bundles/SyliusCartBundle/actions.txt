@@ -1,0 +1,55 @@
+Enrutado y acciones predefinidas
+================================
+
+El paquete proporciona un enrutado predefinido bastante sencillo con varias acciones convenientes y comunes.
+Puedes ver la guía de uso más adelante.
+
+Página de resumen del carrito de compra
+---------------------------------------
+
+Para llevar al usuario a la página de resumen del carrito de compra, puedes utilizar la ruta ``sylius_cart_show``.
+Esta reproducirá la página con las variables predefinidas ``cart`` y ``form``.
+
+``cart`` es el carrito de compra actual y ``form`` es la vista del formulario del carrito de compra.
+
+Añadiendo elementos al carrito de compra
+----------------------------------------
+
+En este sencillo ejemplo, sólo necesitas añadir el siguiente enlace en los sitios donde  necesites el botón «añadir al carro».
+
+.. code-block:: html
+
+    <a href="{{ path('sylius_cart_item_add', {'productId': product.id}) }}">Add product to cart</a>
+
+Hacer clic en este enlace añadirá el producto seleccionado al carro.
+
+Quitando un elemento
+--------------------
+
+En la página de resumen del carro tienes acceso a todos los elementos del carrito de compra, por lo tanto otro sencillo enlace permitirá al usuario quitar elementos del carro.
+
+.. code-block:: html
+
+    <a href="{{ path('sylius_cart_item_remove', {'id': item.id}) }}">Remove from cart</a>
+
+Dónde la variable ``item`` representa a uno de los elementos ``cart.item`` de la colección.
+
+Vaciando el carro completamente
+-------------------------------
+
+Vaciar el carro es tan sencillo como hacer clic en el siguiente enlace:
+
+.. code-block:: html
+
+    <a href="{{ path('sylius_cart_clear')}}">Clear cart</a>
+
+Actualización básica del carro
+------------------------------
+
+En la página de resumen del carro, tienes acceso al formulario del carrito de compra, si lo quieres guardar, sencillamente envía el formulario con la siguiente acción:
+
+.. code-block:: html
+
+    <form action="{{ path('sylius_cart_save') }}" method="post">Clear cart</a>
+
+Tu carro será validado y guardado si todo está bien.

@@ -1,0 +1,264 @@
+``SyliusBloggerBundle``
+=======================
+
+Sistema de blog altamente flexible para aplicaciones *Symfony2*.
+
+No importa si quieres configurar tu registro personal o solo añadir una característica de blog/noticias a una aplicación *Symfony2* existente.
+
+Instalando
+----------
+
+Descargando el paquete
+~~~~~~~~~~~~~~~~~~~~~~
+
+La manera recomendable para instalar los paquetes de ``Sylius`` es usando `Composer <http://getcomposer.org>`_.
+
+Añade las siguientes líneas a tu archivo ``composer.json``. ::
+
+    "require": {
+        "sylius/blogger-bundle": "dev-master"
+    }
+
+Corre la orden ``update`` para descargar el paquete y actualizar el cargador automático.
+
+.. code-block:: bash
+
+    $ php composer.phar update
+
+Configurando el cargador automático
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Si no estás utilizando el cargador automático proporcionado por *Composer*, necesitas registrar la ruta y espacio de nombres adecuado dentro de tu ``autoload``.
+
+Instalando dependencias
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Este paquete utiliza las bibliotecas ``Pagerfanta`` y ``PagerfantaBundle``, sólo tienes que habilitarlas en el núcleo.
+
+Puedes encontrar la guía de instalación `aquí <https://github.com/whiteoctober/WhiteOctoberPagerfantaBundle>`_.
+
+Añadiendo un paquet al núcleo
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Finalmente, habilita el paquete del blog en el núcleo.
+
+.. code-block:: php
+
+    <?php
+
+    // app/AppKernel.php
+
+    public function registerBundles()
+    {
+        $bundles = array(
+            new Sylius\Bundle\BloggerBundle\SyliusBloggerBundle(),
+        );
+    }
+
+Importando la configuración de enrutado
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Añade esto en la configuración de enrutado, por omisión en :file:`config.yml`.
+Puedes personalizar los prefijos para cubrir tus necesidades.
+
+.. code-block:: yaml
+
+    sylius_blogger_post:
+        resource: @SyliusBloggerBundle/Resources/config/routing/frontend/post.yml
+        prefix: /blog
+
+    sylius_blogger_backend_post:
+        resource: @SyliusBloggerBundle/Resources/config/routing/backend/post.yml
+        prefix: /administration/blog/posts
+
+O en formato *XML*.
+
+.. code-block:: xml
+
+    <import resource="@SyliusBloggerBundle/Resources/config/routing/frontend/post.yml" prefix="/blog" />
+    <import resource="@SyliusBloggerBundle/Resources/config/routing/backend/post.yml" prefix="/administration/blog/posts" />
+
+Creando tu clase ``post``
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+El siguiente paso requiere crear tu propia clase ``Post``.
+Si estás usando el modelo del paquete padre, ovbiamente tienes que ponerlo bajo el espacio de nombres de ese paquete, pero en realidad el sitio no le importa a ``SyliusBloggerBundle``.
+
+.. code-block:: php
+
+    <?php
+
+    namespace Acme\Bundle\BloggerBundle\Entity\Post;
+
+    use Doctrine\ORM\Mapping as ORM;
+    use Sylius\Bundle\BloggerBundle\Entity\Post as BasePost;
+
+    class Post extends BasePost
+    {
+    }
+
+Ahora tienes que asociar esta clase en *Doctrine*, pero únicamente necesitas asociar el ``ID``, todo lo demás se hereda de la clase base.
+
+Configurando el contenedor
+--------------------------
+
+Debemos hacerle conocer todas estas clases a *Symfony2* y a ``SyliusBloggerBundle`` y configurar el único controlador compatible al momento.
+Dentro de la configuración de tu contenedor, por omisión :file:`config.yml`, añade esto:
+
+.. code-block:: yaml
+
+    sylius_blogger:
+        driver: doctrine/orm
+        engine: twig
+        classes:
+            model:
+                post: Acme\Bundle\BloggerBundle\Entity\Post
+
+Actualizando el esquema de la base de datos
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+La última cosa que necesitas hacer es actualizar el esquema de la base de datos.
+
+Para el controlador de «``doctrine/orm``» ejecuta la siguiente orden:
+
+.. code-block:: bash
+
+    $ php app/console doctrine:schema:update --force
+
+Plantillas
+~~~~~~~~~~
+
+.. note::
+
+    Actualmente el paquete no incluye plantillas predefinidas.
+
+Los nombres de plantilla concuerdan con los nombres del controlador y la acción, por lo tanto la plantilla para crear el mensaje será... ::
+
+    SyliusBloggerBundle:Backend/Post:create.html.twig
+
+Puedes sustituirla con cualquier otra plantilla que quieras dentro de *Symfony2*.
+
+Guía de uso
+-----------
+
+Esta parte cubre algunos casos de uso comunes y la personalización.
+
+Integración limpia
+~~~~~~~~~~~~~~~~~~
+
+Hay varias maneras de integrar este paquete en tu proyecto. Puedes crear tu paquete en la aplicación extendiendo el ``SyliusBloggerBundle``.
+Este enfoque tiene algunos beneficios pero no todos prefieren crear muchos paquetes.
+
+Si quieres añadir el paquete padre para organizar mejor el código, o esta es «tu manera» de hacer las cosas, recuerda poner el padre apropiado en él.
+
+.. code-block:: php
+
+    public function getParent()
+    {
+        return 'SyliusBloggerBundle';
+    }
+
+Esto te permite reemplazar fácilmente las plantillas y organizar las cosas.
+
+Personalizando el formulario
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+¿Quizás quieras modificar o extender el formulario del mensaje? Esto es realmente fácil y configurable.
+Puedes conseguir sustituir el formulario de dos maneras, si sólo necesitas añadir o quitar algunos campos, sin añadir ninguna dependencia al tipo del formulario, sencillamente crea tu propia clase ``PostType`` extendiéndola de ``Sylius``.
+
+.. code-block:: php
+
+    <?php
+
+    namespace Acme\Bundle\BloggerBundle\Form\Type;
+
+    use Sylius\Bundle\BloggerBundle\Form\Type\PostType as BasePostType;
+    use Symfony\Component\Form\FormBuilder;
+
+    class PostType extends BasePostType
+    {
+        public function buildForm(FormBuilder $builder, array $options) 
+        {
+            parent::buildForm($builder, $options);
+
+            $builder
+                ->remove('author')
+                ->add('enableRating', 'checkbox', array(
+                    'required' => false
+                ))
+            ;
+        }
+    }
+
+Luego, puedes poner esta clase para utilizarla al crear y actualizar el mensaje.
+
+.. code-block:: yaml
+
+    sylius_blogger:
+        classes:
+            form:
+                type:
+                    post: Acme\Bundle\BloggerBundle\Form\Type\PostType
+
+Ahora se utilizará tu formulario personalizado.
+
+Si necesitas incluir algunos servicios personalizados en el tipo del formulario, deberías crear tu servicio y etquetalo como del tipo ``form`` utilizando su nombre... ::
+
+    sylius_blogger_post
+
+Esto pondrá tu servicio de tipo ``form``. Si utilizas este método, por favor recuerda pasar el nombre completamente cualificado de tu modelo del mensaje al constructor padre o la opción ``data_class`` del formulario.
+
+Referencia de configuración
+---------------------------
+
+Referencia completa de la configuración con valores predefinidos.
+
+.. code-block:: yaml
+
+    sylius_blogger:
+        driver: doctrine/orm
+        engine: twig
+        classes:
+            model:
+                post: ~
+            controller:
+                frontend:
+                    post: Sylius\Bundle\BloggerBundle\Controller\Frontend\PostController
+                backend:
+                    post: Sylius\Bundle\BloggerBundle\Controller\Backend\PostController
+            form:
+                type:
+                    post: Application\Sylius\BloggerBundle\Form\Type\PostType
+            manipulator:
+                post: Sylius\Bundle\BloggerBundle\Manipulator\PostManipulator
+
+Probando e integración continua
+-------------------------------
+
+.. image:: http://travis-ci.org/Sylius/SyliusBloggerBundle.png
+
+Este paquete usa `travis-ci.org <http://travis-ci.org/Sylius/SyliusBloggerBundle>`_ para IC.
+
+Antes de correr las pruebas, carga las dependencias usando `Composer <http://getcomposer.org>`_.
+
+    .. code-block:: bash
+
+        $ wget http://getcomposer.org/composer.phar
+        $ php composer.phar install
+
+Ahora puedes probar simplemente usando esta orden:
+
+    .. code-block:: bash
+
+        $ phpunit
+
+Ejemplos funcionando
+--------------------
+
+Si quieres ver este y otros paquetes en acción, prueba la aplicación `del entorno de pruebas Sylius <http://github.com/Sylius/Sylius-Sandbox>`_.
+
+Seguimiento de fallos
+---------------------
+
+Este paquete utiliza las `incidencias de GitHub <https://github.com/Sylius/SyliusBloggerBundle/issues>`_.
+Si encuentras un fallo, por favor crea una incidencia.

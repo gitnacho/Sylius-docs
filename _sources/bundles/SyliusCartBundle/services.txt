@@ -1,0 +1,82 @@
+Usando los servicios
+====================
+
+Al utilizar el paquete, tienes acceso a varios útiles servicios.
+Los puedes utilizar para manipular y gestionar el carrito de compra.
+
+Gestores y repositorios
+-----------------------
+
+.. note::
+
+    ``Sylius`` usa la interfaz ``Doctrine\Common\Persistence``.
+
+Tienes acceso a los siguientes servicios usados para gestionar y recuperar recursos.
+
+Este conjunto de servicios predefinidos se comparte a través de casi todos los paquetes de ``Sylius``, pero esto solamente es una convención.
+Interactúas con ellos como normalmente lo haces con tus propias entidades en tu proyecto.
+
+.. code-block:: php
+
+    <?php
+
+    // ...
+    public function saveAction(Request $request)
+    {
+        // ObjectManager el cual es capaz de gestionar el recurso del Carrito.
+        // Para el controlador *doctrine/orm* este es el EntityManager.
+        $this->get('sylius.manager.cart');
+
+        // ObjectRepository para el recurso del Carrito, extiende al EntityRepository base.
+        // Puedes utilizar la entidad como habitualmente lo hace el
+        // repositorio en el proyecto.
+        $this->get('sylius.repository.cart');
+
+        // El mismo par del recurso CartItem.
+        $this->get('sylius.manager.cart_item');
+        $this->get('sylius.repository.cart_item');
+
+        // Estos repositorios tienen algunos convenientes métodos predefinidos, por ejemplo...
+        $item = $itemRepository->createNew();
+    }
+
+Proveedor y resolutor
+---------------------
+
+También hay tres servicios más para ti.
+
+Utilizas el proveedor para obtener el carrito del usuario actual, si no hay ninguno, se crea y guarda uno nuevo.
+El método ``->setCart()`` también te permite reemplazar el carrito actual.
+``->abandonCart()`` reinicia el carrito actual, creará uno nuevo en la próxima llamada a ``->getCart()``.
+Este es útil, por ejemplo, cuándo después de completado un pedido quieres iniciar con un nuevo carrito.
+
+.. code-block:: php
+
+    <?php
+
+    // ...
+    public function saveAction(Request $request)
+    {
+        $provider = $this->get('sylius.cart_provider'); // Implementa la CartProviderInterface.
+
+        $currentCart = $provider->getCart();
+        $provider->setCart($customCart);
+        $provider->abandonCart();
+    }
+
+Usa el resolutor para crear un nuevo elemento basándose en la petición del usuario.
+
+.. code-block:: php
+
+    <?php
+
+    // ...
+    public function addItemAction(Request $request)
+    {
+        $resolver = $this->get('sylius.cart_resolver');
+        $item = $this->resolve($this->createNew(), $request);
+    }
+
+.. note::
+
+    Un ejemplo más avanzado de la implementación del resolutor está disponible en la aplicación `del entorno de pruebas Sylius en GitHub <https://github.com/Sylius/Sylius-Sandbox/blob/master/src/Sylius/Bundle/SandboxBundle/Resolver/ItemResolver.php>`_.

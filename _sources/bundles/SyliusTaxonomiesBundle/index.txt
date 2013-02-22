@@ -1,0 +1,6 @@
+``SyliusTaxonomiesBundle``
+==========================
+
+.. note::
+
+    Por escribirse.

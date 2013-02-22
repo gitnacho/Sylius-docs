@@ -1,0 +1,8 @@
+Enviando un parche
+==================
+
+No hay ningún propósito en reescribir `esto <http://gitnacho.github.com/symfony-docs-es/contributing/code/patches.html>`_.
+
+Esta solo es una lista de control perfecta así que por favor síguela, al crear un parche para ``Sylius``.
+
+La única diferencia es que en vez de etiquetar las peticiones de atracción con *[Component]*, sólo envía la petición de atracción para corregir el repositorio.

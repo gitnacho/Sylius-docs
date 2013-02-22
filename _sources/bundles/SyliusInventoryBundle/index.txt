@@ -1,0 +1,24 @@
+``SyliusInventoryBundle``
+=========================
+
+Flexible gestor de inventarios para aplicaciones *Symfony2*.
+
+Con mínima configuración puedes implementar en tu proyecto el seguimiento al inventario.
+
+Es totalmente personalizable, pero la configuración predeterminada debería ser optima para la mayoría de los casos de uso.
+
+En el paquete hay modelos para ``StockableInterface`` e ``InventoryUnit``.
+
+Hay servicios ``AvailabilityChecker``, ``InventoryOperator`` e ``InventoryChangeListener``.
+
+Te familiarizarás con ellos en partes adicionales de esta documentación.
+
+.. toctree::
+   :maxdepth: 1
+   :numbered:
+
+   installation
+   models
+   services
+   extension
+   summary

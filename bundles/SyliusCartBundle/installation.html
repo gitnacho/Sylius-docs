@@ -1,0 +1,407 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Instalando &mdash; Sylius en español</title>
+    
+    <link rel="stylesheet" href="../../_static/tnp.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="shortcut icon" href="../../_static/icotnp.ico"/>
+    <link rel="top" title="Sylius en español" href="../../index.html" />
+    <link rel="up" title="SyliusCartBundle" href="index.html" />
+    <link rel="next" title="2. El Cart y CartItem" href="models.html" />
+    <link rel="prev" title="SyliusCartBundle" href="index.html" /> 
+  </head>
+  <body>
+  <div class="imalogo">
+    
+    <a href="../../index.html"><img src="http://gitnacho.github.com/tnp/_static/normaltnp.png" alt="Traducciones de Nacho Pacheco" /></a>
+    <div class="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="esymfony" data-lang="es">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div id="searchbox">
+      <form class="searc " action="../../search.html" method="get">
+      <input type="search" name="q" placeholder="Término a buscar" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+    
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="models.html" title="2. El Cart y CartItem"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="SyliusCartBundle"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusCartBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="instalando">
+<h1>1. Instalando<a class="headerlink" href="#instalando" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Suponemos que estás familiarizado con <a class="reference external" href="http://packagist.org">Composer</a>, un gestor de dependencias para <em>PHP</em>.</p>
+<p>Usa la siguiente orden para añadir el paquete a tu archivo <tt class="file docutils literal"><span class="pre">composer.json</span></tt> y descargarlo.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>composer require sylius/cart-bundle:*
+</pre></div>
+</div>
+<div class="section" id="anadiendo-al-nucleo-los-paquetes-necesarios">
+<h2>1.1. Añadiendo al núcleo los paquetes necesarios<a class="headerlink" href="#anadiendo-al-nucleo-los-paquetes-necesarios" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Primero, debes habilitar el paquete dentro del núcleo.
+Si no estás utilizando ningún otro paquete <tt class="docutils literal"><span class="pre">Sylius</span></tt>, también necesitarás añadir al núcleo el <tt class="docutils literal"><span class="pre">SyliusResourceBundle</span></tt> y sus dependencias.
+No te preocupes, todo será instalado automáticamente vía <em>Composer</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Por favor, registra el paquete antes del <tt class="docutils literal"><span class="pre">DoctrineBundle</span></tt>. Esto es importante al utilizar escuchas que se deben procesar primero.</p>
+</div>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// app/AppKernel.php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">registerBundles</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$bundles</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">FOS\RestBundle\FOSRestBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">JMS\SerializerBundle\JMSSerializerBundle</span><span class="p">(</span><span class="nv">$this</span><span class="p">),</span>
+        <span class="k">new</span> <span class="nx">Sylius\Bundle\ResourceBundle\SyliusResourceBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Sylius\Bundle\CartBundle\SyliusCartBundle</span><span class="p">(),</span>
+
+        <span class="c1">// Otros paquetes...</span>
+        <span class="k">new</span> <span class="nx">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</span><span class="p">(),</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creando-tus-entidades">
+<h2>1.2. Creando tus entidades<a class="headerlink" href="#creando-tus-entidades" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Debes crear tu entidad <tt class="docutils literal"><span class="pre">CartItem</span></tt>, que vive dentro del código de tu aplicación.
+Creemos que mantener <strong>lo más simple posible la estructura del paquete en la aplicación específica</strong> es una buena práctica, por lo tanto asumimos que tienes registrado tu <tt class="docutils literal"><span class="pre">AppBundle</span></tt> bajo el espacio de nombres <tt class="docutils literal"><span class="pre">App\Bundle\AppBundle</span></tt>.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// src/App/AppBundle/Entity/CartItem.php</span>
+<span class="k">namespace</span> <span class="nx">App\AppBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Sylius\Bundle\CartBundle\Entity\CartItem</span> <span class="k">as</span> <span class="nx">BaseCartItem</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">CartItem</span> <span class="k">extends</span> <span class="nx">BaseCartItem</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Ahora necesitas definir una sencilla asociación a esta entidad, debido a que esta sólo extiende a la superclase de <em>Doctrine</em> asociada.
+Deberías crear un archivo de asociación en tu <tt class="docutils literal"><span class="pre">AppBundle</span></tt>, dentro del directorio de asociaciones de <em>Doctrine</em> <tt class="docutils literal"><span class="pre">src/App/AppBundle/Resources/config/doctrine/CartItem.orm.xml</span></tt>.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+
+<span class="nt">&lt;doctrine-mapping</span> <span class="na">xmlns=</span><span class="s">&quot;http://doctrine-project.org/schemas/orm/doctrine-mapping&quot;</span>
+                         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+                         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://doctrine-project.org/schemas/orm/doctrine-mapping</span>
+<span class="s">                                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;entity</span> <span class="na">name=</span><span class="s">&quot;App\AppBundle\Entity\CartItem&quot;</span> <span class="na">table=</span><span class="s">&quot;app_cart_item&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;id</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">column=</span><span class="s">&quot;id&quot;</span> <span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;generator</span> <span class="na">strategy=</span><span class="s">&quot;AUTO&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/id&gt;</span>
+    <span class="nt">&lt;/entity&gt;</span>
+
+<span class="nt">&lt;/doctrine-mapping&gt;</span>
+</pre></div>
+</div>
+<p>Asociar el <tt class="docutils literal"><span class="pre">id</span></tt> es suficiente, porque la relación entre <tt class="docutils literal"><span class="pre">Cart</span></tt> y <tt class="docutils literal"><span class="pre">CartItem</span></tt> ya se ha definido en los metadatos de la superclase.</p>
+<p>Supongamos que tienes una entidad <tt class="docutils literal"><span class="pre">Producto</span></tt>, la cual representa tus principales mercancías en la tienda <em>web</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Por favor, recuerda que puedes utilizar cualquier otra cosa, aquí <tt class="docutils literal"><span class="pre">Producto</span></tt> solo es un ejemplo obvio, pero  este trabaja de manera similar con otras entidades.</p>
+</div>
+<p>Necesitas modificar un poco la entidad <tt class="docutils literal"><span class="pre">CartItem</span></tt> y su asignación, para que nos permita poner elementos producto en el carrito de compra.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// src/App/AppBundle/Entity/CartItem.php</span>
+<span class="k">namespace</span> <span class="nx">App\AppBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Sylius\Bundle\CartBundle\Entity\CartItem</span> <span class="k">as</span> <span class="nx">BaseCartItem</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">CartItem</span> <span class="k">extends</span> <span class="nx">BaseCartItem</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$product</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getProduct</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">product</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setProduct</span><span class="p">(</span><span class="nx">Product</span> <span class="nv">$product</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">product</span> <span class="o">=</span> <span class="nv">$product</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Añadimos una propiedad «producto», un captador y definidor sencillos.
+Además debemos asociar el <tt class="docutils literal"><span class="pre">Producto</span></tt> al <tt class="docutils literal"><span class="pre">CartItem</span></tt>, ahora crearás esta relación en archivos de asignación.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+
+<span class="nt">&lt;doctrine-mapping</span> <span class="na">xmlns=</span><span class="s">&quot;http://doctrine-project.org/schemas/orm/doctrine-mapping&quot;</span>
+                         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+                         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://doctrine-project.org/schemas/orm/doctrine-mapping</span>
+<span class="s">                                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;entity</span> <span class="na">name=</span><span class="s">&quot;App\AppBundle\Entity\CartItem&quot;</span> <span class="na">table=</span><span class="s">&quot;app_cart_item&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;id</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">column=</span><span class="s">&quot;id&quot;</span> <span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;generator</span> <span class="na">strategy=</span><span class="s">&quot;AUTO&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/id&gt;</span>
+        <span class="nt">&lt;many-to-one</span> <span class="na">field=</span><span class="s">&quot;product&quot;</span> <span class="na">target-entity=</span><span class="s">&quot;App\AppBundle\Entity\Product&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;join-column</span> <span class="na">name=</span><span class="s">&quot;product_id&quot;</span> <span class="na">referenced-column-name=</span><span class="s">&quot;id&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/many-to-one&gt;</span>
+    <span class="nt">&lt;/entity&gt;</span>
+
+<span class="nt">&lt;/doctrine-mapping&gt;</span>
+</pre></div>
+</div>
+<p>Y esto sería todo sobre las entidades.</p>
+<p>Ahora debes crear un servicio realmente sencillo.
+El <tt class="docutils literal"><span class="pre">ItemResolver</span></tt>, el cual utilizará el controlador para resolver el nuevo elemento del carrito de compra &#8212; basandose en la información de la petición del usuario.
+Su único requisito es implementar la <tt class="docutils literal"><span class="pre">Sylius\Bundle\CartBundle\Resolver\ItemResolverInterface</span></tt>.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// src/App/AppBundle/Cart/ItemResolver.php</span>
+<span class="k">namespace</span> <span class="nx">App\AppBundle\Cart</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Sylius\Bundle\CartBundle\Model\CartItemInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Sylius\Bundle\CartBundle\Resolver\ItemResolverInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ItemResolver</span> <span class="k">implements</span> <span class="nx">ItemResolverInterface</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">resolve</span><span class="p">(</span><span class="nx">CartItemInterface</span> <span class="nv">$item</span><span class="p">,</span> <span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>La clase está en su sitio, bien hecho.</p>
+<p>Necesitas un poco más de codificación, para que el servicio haga su trabajo.
+En este ejemplo queremos poner <tt class="docutils literal"><span class="pre">Productos</span></tt> en nuestro carrito, por lo tanto debemos inyectar el gestor de entidades al servicio resolutor.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// src/App/AppBundle/Cart/ItemResolver.php</span>
+<span class="k">namespace</span> <span class="nx">App\AppBundle\Cart</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Sylius\Bundle\CartBundle\Model\CartItemInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Sylius\Bundle\CartBundle\Resolver\ItemResolverInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ItemResolver</span> <span class="k">implements</span> <span class="nx">ItemResolverInterface</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$entityManager</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">EntityManager</span> <span class="nv">$entityManager</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span> <span class="o">=</span> <span class="nv">$entityManager</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">resolve</span><span class="p">(</span><span class="nx">CartItemInterface</span> <span class="nv">$item</span><span class="p">,</span> <span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">getProductRepository</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getRepository</span><span class="p">(</span><span class="s1">&#39;AppBundle:Product&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>También añadimos un sencillo método <tt class="docutils literal"><span class="pre">getProductRepository()</span></tt> para mantener limpio el código del resolutor.</p>
+<p>Debemos utilizar este repositorio para encontrar un producto por el <tt class="docutils literal"><span class="pre">id</span></tt> suministrado por el usuario a través de la petición.
+Esto se puede hacer de varias maneras, pero para mantener sencillo el ejemplo &#8212; utilizaremos parámetros de consulta.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// src/App/AppBundle/Cart/ItemResolver.php</span>
+<span class="k">namespace</span> <span class="nx">App\AppBundle\Cart</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Sylius\Bundle\CartBundle\Model\CartItemInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Sylius\Bundle\CartBundle\Resolver\ItemResolverInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Sylius\Bundle\CartBundle\Resolver\ItemResolvingException</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ItemResolver</span> <span class="k">implements</span> <span class="nx">ItemResolverInterface</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$entityManager</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">EntityManager</span> <span class="nv">$entityManager</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span> <span class="o">=</span> <span class="nv">$entityManager</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">resolve</span><span class="p">(</span><span class="nx">CartItemInterface</span> <span class="nv">$item</span><span class="p">,</span> <span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$productId</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">query</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;productId&#39;</span><span class="p">);</span>
+
+        <span class="c1">// Si no se da un producto, o este no se encuentra, lanzamos</span>
+        <span class="c1">// una excepción con un bonito mensaje.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$productId</span> <span class="o">||</span> <span class="o">!</span><span class="nv">$product</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getProductRepository</span><span class="p">()</span>
+                                            <span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="nv">$productId</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nx">ItemResolvingException</span><span class="p">(</span><span class="s1">&#39;Requested product was not found&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Asigna el producto al elemento y define el preco unitario.</span>
+        <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">setProduct</span><span class="p">(</span><span class="nv">$product</span><span class="p">);</span>
+        <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">setUnitPrice</span><span class="p">(</span><span class="nv">$product</span><span class="o">-&gt;</span><span class="na">getPrice</span><span class="p">());</span>
+
+        <span class="c1">// Todo estubo bien, regresa el elemento.</span>
+        <span class="k">return</span> <span class="nv">$item</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">getProductRepository</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getRepository</span><span class="p">(</span><span class="s1">&#39;AppBundle:Product&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Registra nuestro nuevo servicio en el contenedor. Utilizaremos <em>XML</em> como ejemplo, estás en libertad de elegir cualquiera otro formato.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+
+<span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+           <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+           <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/services</span>
+<span class="s">                               http://symfony.com/schema/dic/services/services-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+        <span class="nt">&lt;services&gt;</span>
+        <span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;app.cart_item_resolver&quot;</span> <span class="na">class=</span><span class="s">&quot;App\AppBundle\Cart\ItemResolver&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;argument</span> <span class="na">type=</span><span class="s">&quot;service&quot;</span> <span class="na">id=</span><span class="s">&quot;doctrine.orm.entity_manager&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/service&gt;</span>
+        <span class="nt">&lt;/services&gt;</span>
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+<p>El paquete también requiere una sencilla configuración...</p>
+</div>
+<div class="section" id="configurando-el-contenedor">
+<h2>1.3. Configurando el contenedor<a class="headerlink" href="#configurando-el-contenedor" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Coloca esta configuración dentro de tu archivo <tt class="file docutils literal"><span class="pre">app/config/config.yml</span></tt>.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">sylius_cart</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">driver</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">doctrine/orm</span> <span class="c1"># Configura el controlador del orm de doctrine usado en la documentación.</span>
+    <span class="l-Scalar-Plain">resolver</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">app.cart_item_resolver</span> <span class="c1"># El id del servicio creado recientemente.</span>
+    <span class="l-Scalar-Plain">classes</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">item</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">model</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">App\AppBundle\Entity\CartItem</span> <span class="c1"># The item entity.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="importando-la-configuracion-de-enrutado">
+<h2>1.4. Importando la configuración de enrutado<a class="headerlink" href="#importando-la-configuracion-de-enrutado" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Importa el enrutado predefinido desde tu archivo <tt class="file docutils literal"><span class="pre">app/config/routing.yml</span></tt>.</p>
+<div class="highlight-yaml"><pre>sylius_cart:
+    resource: @SyliusCartBundle/Resources/config/routing.yml
+    prefix: /cart</pre>
+</div>
+</div>
+<div class="section" id="actualizando-el-esquema-de-la-base-de-datos">
+<h2>1.5. Actualizando el esquema de la base de datos<a class="headerlink" href="#actualizando-el-esquema-de-la-base-de-datos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Recuerda actualizar el esquema de tu base de datos.</p>
+<p>Para el controlador de «<tt class="docutils literal"><span class="pre">doctrine/orm</span></tt>» ejecuta la siguiente orden:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php app/console doctrine:schema:update --force
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last">¡Esto sólo se debería hacer en el entorno <tt class="docutils literal"><span class="pre">dev</span></tt>! Te recomendamos utilizar las migraciones de <em>Doctrine</em>, para actualizar tu esquema sin incidentes.</p>
+</div>
+</div>
+<div class="section" id="plantillas">
+<h2>1.6. Plantillas<a class="headerlink" href="#plantillas" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Creemos que proporcionar una razonable plantilla predefinida es realmente difícil, especialmente la del resumen de la página del carrito de compras es muy sencilla.
+Esta es la razón por la cual actualmente no incluimos ninguna, pero si tienes una idea para una buena plantilla inicial, ¡háznolo saber!</p>
+<p>El paquete sólo requiere la plantilla <tt class="file docutils literal"><span class="pre">show.html</span></tt> para la página de resumen del carrito de compra.
+Fácilmente puedes sustituir está vista colocándola en <tt class="file docutils literal"><span class="pre">app/Resources/SyliusCartBundle/views/Cart/show.html.twig</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Puedes utilizar las <a class="reference external" href="https://github.com/Sylius/Sylius-Sandbox/blob/master/sandbox/Resources/SyliusCartBundle/views/Cart/show.html.twig">plantillas de nuestra aplicación de ejemplo</a> para inspirarte.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div style="width:740px;margin:10px auto;">
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="models.html" title="2. El Cart y CartItem"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="SyliusCartBundle"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusCartBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+   <div style="width: 740px; margin: 0 auto;">
+     <div id="disqus_thread"></div>
+     
+    <div class="footer">
+        &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
+      Actualizado por última vez en Feb 22, 2013.
+      Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+   </div>
+   <script type="text/javascript">
+    var disqus_shortname = 'documentos-mx';
+    var disqus_developer = 1;
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+   </script>
+   <noscript>
+     Por favor activa JavaScript para ver los <a href="http://disqus.com/?ref_noscript">comentarios accionados por Disqus.</a>
+   </noscript>
+
+  </body>
+</html>

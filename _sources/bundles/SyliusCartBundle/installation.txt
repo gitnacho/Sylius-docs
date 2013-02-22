@@ -1,0 +1,319 @@
+Instalando
+==========
+
+Suponemos que estás familiarizado con `Composer <http://packagist.org>`_, un gestor de dependencias para *PHP*.
+
+Usa la siguiente orden para añadir el paquete a tu archivo :file:`composer.json` y descargarlo.
+
+.. code-block:: bash
+
+    $ composer require sylius/cart-bundle:*
+
+Añadiendo al núcleo los paquetes necesarios
+-------------------------------------------
+
+Primero, debes habilitar el paquete dentro del núcleo.
+Si no estás utilizando ningún otro paquete ``Sylius``, también necesitarás añadir al núcleo el ``SyliusResourceBundle`` y sus dependencias.
+No te preocupes, todo será instalado automáticamente vía *Composer*.
+
+.. note::
+
+    Por favor, registra el paquete antes del ``DoctrineBundle``. Esto es importante al utilizar escuchas que se deben procesar primero.
+
+.. code-block:: php
+
+    <?php
+
+    // app/AppKernel.php
+
+    public function registerBundles()
+    {
+        $bundles = array(
+            new FOS\RestBundle\FOSRestBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle($this),
+            new Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
+            new Sylius\Bundle\CartBundle\SyliusCartBundle(),
+
+            // Otros paquetes...
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+        );
+    }
+
+Creando tus entidades
+---------------------
+
+Debes crear tu entidad ``CartItem``, que vive dentro del código de tu aplicación.
+Creemos que mantener **lo más simple posible la estructura del paquete en la aplicación específica** es una buena práctica, por lo tanto asumimos que tienes registrado tu ``AppBundle`` bajo el espacio de nombres ``App\Bundle\AppBundle``.
+
+.. code-block:: php
+
+    <?php
+
+    // src/App/AppBundle/Entity/CartItem.php
+    namespace App\AppBundle\Entity;
+
+    use Sylius\Bundle\CartBundle\Entity\CartItem as BaseCartItem;
+
+    class CartItem extends BaseCartItem
+    {
+    }
+
+Ahora necesitas definir una sencilla asociación a esta entidad, debido a que esta sólo extiende a la superclase de *Doctrine* asociada.
+Deberías crear un archivo de asociación en tu ``AppBundle``, dentro del directorio de asociaciones de *Doctrine* ``src/App/AppBundle/Resources/config/doctrine/CartItem.orm.xml``.
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+
+    <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                             xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                                 http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+        <entity name="App\AppBundle\Entity\CartItem" table="app_cart_item">
+            <id name="id" column="id" type="integer">
+                <generator strategy="AUTO" />
+            </id>
+        </entity>
+
+    </doctrine-mapping>
+
+Asociar el ``id`` es suficiente, porque la relación entre ``Cart`` y ``CartItem`` ya se ha definido en los metadatos de la superclase.
+
+Supongamos que tienes una entidad ``Producto``, la cual representa tus principales mercancías en la tienda *web*.
+
+.. note::
+
+    Por favor, recuerda que puedes utilizar cualquier otra cosa, aquí ``Producto`` solo es un ejemplo obvio, pero  este trabaja de manera similar con otras entidades.
+
+Necesitas modificar un poco la entidad ``CartItem`` y su asignación, para que nos permita poner elementos producto en el carrito de compra.
+
+.. code-block:: php
+
+    <?php
+
+    // src/App/AppBundle/Entity/CartItem.php
+    namespace App\AppBundle\Entity;
+
+    use Sylius\Bundle\CartBundle\Entity\CartItem as BaseCartItem;
+
+    class CartItem extends BaseCartItem
+    {
+        private $product;
+
+        public function getProduct()
+        {
+            return $this->product;
+        }
+
+        public function setProduct(Product $product)
+        {
+            $this->product = $product;
+        }
+    }
+
+Añadimos una propiedad «producto», un captador y definidor sencillos.
+Además debemos asociar el ``Producto`` al ``CartItem``, ahora crearás esta relación en archivos de asignación.
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+
+    <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                             xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                                 http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+        <entity name="App\AppBundle\Entity\CartItem" table="app_cart_item">
+            <id name="id" column="id" type="integer">
+                <generator strategy="AUTO" />
+            </id>
+            <many-to-one field="product" target-entity="App\AppBundle\Entity\Product">
+                <join-column name="product_id" referenced-column-name="id" />
+            </many-to-one>
+        </entity>
+
+    </doctrine-mapping>
+
+Y esto sería todo sobre las entidades. 
+
+Ahora debes crear un servicio realmente sencillo.
+El ``ItemResolver``, el cual utilizará el controlador para resolver el nuevo elemento del carrito de compra --- basandose en la información de la petición del usuario.
+Su único requisito es implementar la ``Sylius\Bundle\CartBundle\Resolver\ItemResolverInterface``.
+
+.. code-block:: php
+
+    <?php
+
+    // src/App/AppBundle/Cart/ItemResolver.php
+    namespace App\AppBundle\Cart;
+
+    use Sylius\Bundle\CartBundle\Model\CartItemInterface;
+    use Sylius\Bundle\CartBundle\Resolver\ItemResolverInterface;
+    use Symfony\Component\HttpFoundation\Request;
+
+    class ItemResolver implements ItemResolverInterface
+    {
+        public function resolve(CartItemInterface $item, Request $request)
+        {
+        }
+    }
+
+La clase está en su sitio, bien hecho.
+
+Necesitas un poco más de codificación, para que el servicio haga su trabajo.
+En este ejemplo queremos poner ``Productos`` en nuestro carrito, por lo tanto debemos inyectar el gestor de entidades al servicio resolutor.
+
+.. code-block:: php
+
+    <?php
+
+    // src/App/AppBundle/Cart/ItemResolver.php
+    namespace App\AppBundle\Cart;
+
+    use Sylius\Bundle\CartBundle\Model\CartItemInterface;
+    use Sylius\Bundle\CartBundle\Resolver\ItemResolverInterface;
+    use Symfony\Component\HttpFoundation\Request;
+
+    class ItemResolver implements ItemResolverInterface
+    {
+        private $entityManager;
+
+        public function __construct(EntityManager $entityManager)
+        {
+            $this->entityManager = $entityManager;
+        }
+
+        public function resolve(CartItemInterface $item, Request $request)
+        {
+        }
+
+        private function getProductRepository()
+        {
+            return $this->entityManager->getRepository('AppBundle:Product');
+        }
+    }
+
+También añadimos un sencillo método ``getProductRepository()`` para mantener limpio el código del resolutor.
+
+Debemos utilizar este repositorio para encontrar un producto por el ``id`` suministrado por el usuario a través de la petición.
+Esto se puede hacer de varias maneras, pero para mantener sencillo el ejemplo --- utilizaremos parámetros de consulta.
+
+.. code-block:: php
+
+    <?php
+
+    // src/App/AppBundle/Cart/ItemResolver.php
+    namespace App\AppBundle\Cart;
+
+    use Sylius\Bundle\CartBundle\Model\CartItemInterface;
+    use Sylius\Bundle\CartBundle\Resolver\ItemResolverInterface;
+    use Sylius\Bundle\CartBundle\Resolver\ItemResolvingException;
+    use Symfony\Component\HttpFoundation\Request;
+
+    class ItemResolver implements ItemResolverInterface
+    {
+        private $entityManager;
+
+        public function __construct(EntityManager $entityManager)
+        {
+            $this->entityManager = $entityManager;
+        }
+
+        public function resolve(CartItemInterface $item, Request $request)
+        {
+            $productId = $request->query->get('productId');
+
+            // Si no se da un producto, o este no se encuentra, lanzamos
+            // una excepción con un bonito mensaje.
+            if (!$productId || !$product = $this->getProductRepository()
+                                                ->find($productId)) {
+                throw new ItemResolvingException('Requested product was not found');
+            }
+
+            // Asigna el producto al elemento y define el preco unitario.
+            $item->setProduct($product);
+            $item->setUnitPrice($product->getPrice());
+
+            // Todo estubo bien, regresa el elemento.
+            return $item;
+        }
+
+        private function getProductRepository()
+        {
+            return $this->entityManager->getRepository('AppBundle:Product');
+        }
+    }
+
+Registra nuestro nuevo servicio en el contenedor. Utilizaremos *XML* como ejemplo, estás en libertad de elegir cualquiera otro formato.
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+
+    <container xmlns="http://symfony.com/schema/dic/services"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://symfony.com/schema/dic/services
+                                   http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+            <services>
+            <service id="app.cart_item_resolver" class="App\AppBundle\Cart\ItemResolver">
+                <argument type="service" id="doctrine.orm.entity_manager" />
+            </service>
+            </services>
+    </container>
+
+El paquete también requiere una sencilla configuración...
+
+Configurando el contenedor
+--------------------------
+
+Coloca esta configuración dentro de tu archivo :file:`app/config/config.yml`.
+
+.. code-block:: yaml
+
+    sylius_cart:
+        driver: doctrine/orm # Configura el controlador del orm de doctrine usado en la documentación.
+        resolver: app.cart_item_resolver # El id del servicio creado recientemente.
+        classes:
+            item:
+                model: App\AppBundle\Entity\CartItem # The item entity.
+
+Importando la configuración de enrutado
+---------------------------------------
+
+Importa el enrutado predefinido desde tu archivo :file:`app/config/routing.yml`.
+
+.. code-block:: yaml
+
+    sylius_cart:
+        resource: @SyliusCartBundle/Resources/config/routing.yml
+        prefix: /cart
+
+Actualizando el esquema de la base de datos
+-------------------------------------------
+
+Recuerda actualizar el esquema de tu base de datos.
+
+Para el controlador de «``doctrine/orm``» ejecuta la siguiente orden:
+
+.. code-block:: bash
+
+    $ php app/console doctrine:schema:update --force
+
+.. warning::
+
+    ¡Esto sólo se debería hacer en el entorno ``dev``! Te recomendamos utilizar las migraciones de *Doctrine*, para actualizar tu esquema sin incidentes.
+
+Plantillas
+----------
+
+Creemos que proporcionar una razonable plantilla predefinida es realmente difícil, especialmente la del resumen de la página del carrito de compras es muy sencilla.
+Esta es la razón por la cual actualmente no incluimos ninguna, pero si tienes una idea para una buena plantilla inicial, ¡háznolo saber!
+
+El paquete sólo requiere la plantilla :file:`show.html` para la página de resumen del carrito de compra.
+Fácilmente puedes sustituir está vista colocándola en :file:`app/Resources/SyliusCartBundle/views/Cart/show.html.twig`.
+
+.. note::
+
+    Puedes utilizar las `plantillas de nuestra aplicación de ejemplo <https://github.com/Sylius/Sylius-Sandbox/blob/master/sandbox/Resources/SyliusCartBundle/views/Cart/show.html.twig>`_ para inspirarte.

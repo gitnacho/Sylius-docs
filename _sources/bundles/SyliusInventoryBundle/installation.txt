@@ -1,0 +1,244 @@
+Instalando
+==========
+
+Suponemos que estás familiarizado con `Composer <http://packagist.org>`_, un gestor de dependencias para *PHP*.
+
+Usa la siguiente orden para añadir el paquete a tu archivo :file:`composer.json` y descargarlo.
+
+.. code-block:: bash
+
+    $ composer require sylius/inventory-bundle:*
+
+Añadiendo al núcleo los paquetes necesarios
+-------------------------------------------
+
+Primero, debes habilitar el paquete dentro del núcleo.
+Si no estás utilizando ningún otro paquete ``Sylius``, también necesitarás añadir al núcleo el ``SyliusResourceBundle`` y sus dependencias.
+No te preocupes, todo será instalado automáticamente vía *Composer*.
+
+.. code-block:: php
+
+    <?php
+
+    // app/AppKernel.php
+
+    public function registerBundles()
+    {
+        $bundles = array(
+            // ...
+            new FOS\RestBundle\FOSRestBundle(),
+            new Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
+            new Sylius\Bundle\InventoryBundle\SyliusInventoryBundle(),
+        );
+    }
+
+Creando tus entidades
+---------------------
+
+Supón que deseas implementar una aplicación para una librería y darle seguimiento a su inventario de libros.
+
+Debes crear las entidades ``Libro`` e ``InventoryUnit``, que viven dentro del código de tu aplicación.
+Creemos que mantener **lo más simple posible la estructura del paquete en la aplicación específica** es una buena práctica, por lo tanto asumimos que tienes registrado tu ``AppBundle`` bajo el espacio de nombres ``App\Bundle\AppBundle``.
+
+Crearemos la entidad ``Libro``.
+
+.. code-block:: php
+
+    <?php
+
+    // src/App/AppBundle/Entity/Book.php
+    namespace App\AppBundle\Entity;
+
+    use Sylius\Bundle\InventoryBundle\Model\StockableInterface;
+    use Doctrine\ORM\Mapping as ORM;
+
+    /**
+     * @ORM\Entity
+     * @ORM\Table(name="app_book")
+     */
+    class Book implements StockableInterface
+    {
+        /**
+         * @ORM\Id
+         * @ORM\Column(type="integer")
+         * @ORM\GeneratedValue(strategy="AUTO")
+         */
+        protected $id;
+
+        /**
+         * @ORM\Column(type="string")
+         */
+        protected $isbn;
+
+        /**
+         * @ORM\Column(type="string")
+         */
+        protected $title;
+
+        /**
+         * @ORM\Column(type="integer")
+         */
+        protected $onHand;
+
+        /**
+         * @ORM\Column(type="boolean")
+         */
+        protected $availableOnDemand;
+
+        public function __construct()
+        {
+            $this->onHand = 1;
+            $this->availableOnDemand = true;
+        }
+
+        public function getId()
+        {
+            return $this->id;
+        }
+
+        public function getIsbn()
+        {
+            return $this->isbn;
+        }
+
+        public function setIsbn($isbn)
+        {
+            $this->isbn = $isbn;
+        }
+
+        public function getSku()
+        {
+            return $this->getIsbn();
+        }
+
+        public function getTitle()
+        {
+            return $this->title;
+        }
+
+        public function setTitle($title)
+        {
+            $this->title = $title;
+        }
+
+        public function getInventoryName()
+        {
+            return $this->getTitle();
+        }
+
+        public function isInStock()
+        {
+            return 0 < $this->onHand;
+        }
+
+        public function isAvailableOnDemand()
+        {
+            return $this->availableOnDemand;
+        }
+
+        public function setAvailableOnDemand($availableOnDemand)
+        {
+            $this->availableOnDemand = (Boolean) $availableOnDemand;
+        }
+
+        public function getOnHand()
+        {
+            return $this->onHand;
+        }
+
+        public function setOnHand($onHand)
+        {
+            $this->onHand = $onHand;
+        }
+    }
+
+.. note::
+
+    Este ejemplo muestra todo el poder de ``StockableInterface``.
+    El paquete también proporciona la entidad ``Stockable`` que implementa por ti la ``StockableInterface``.
+    Al extender la enditidad ``Stockable``, el ejemplo anterior se puede simplificar dramáticamente.
+
+A fin de seguir la pista del inventario de libros, nuestra entidad ``Libro`` debe implementar la ``StockableInterface``.
+Ten en cuenta que añadimos el método ``->getSku()`` que es una alias para ``->getIsbn()``, este es el poder de la interfaz, tienes total control sobre la asignación de la entidad.
+Algo similar va para ``->getInventoryName()`` el cual expone el título de libro al exhibir el nombre para nuestra entidad ``inventariable``.
+
+El siguiente paso requiere crear la entidad ``InventoryUnit``:
+
+.. code-block:: php
+
+    <?php
+
+    // src/App/AppBundle/Entity/InventoryUnit.php
+    namespace App\AppBundle\Entity;
+
+    use Sylius\Bundle\InventoryBundle\Entity\InventoryUnit as BaseInventoryUnit;
+    use Doctrine\ORM\Mapping as ORM;
+
+    /**
+     * @ORM\Entity
+     * @ORM\Table(name="app_inventory_unit")
+     */
+    class InventoryUnit extends BaseInventoryUnit
+    {
+        /**
+         * @ORM\Id
+         * @ORM\Column(type="integer")
+         * @ORM\GeneratedValue(strategy="AUTO")
+         */
+        protected $id;
+    }
+
+Ten en cuenta que estas utilizando la entidad base del paquete ``Sylius``, lo cual significa heredar alguna funcionalidad proporcionada por el paquete de inventario.
+``InventoryUnit`` mantiene la referencia al objeto ``inventariable``, la cual es el ``Libro`` en nuestro caso.
+Por lo tanto, si utilizaste ``InventoryOperator`` para crear las unidades del inventario,ellas hacen referencia a la entidad del libro dado.
+
+Configurando el contenedor
+--------------------------
+
+Coloca esta configuración dentro de tu archivo :file:`app/config/config.yml`.
+
+.. code-block:: yaml
+
+    sylius_inventory:
+        driver: doctrine/orm
+        backorders: true
+        classes:
+            unit:
+                model: App\AppBundle\Entity\InventoryUnit
+            stockable:
+                model: App\AppBundle\Entity\Book
+
+Configurando el enrutado
+------------------------
+
+Importa la configuración de enrutado añadiendo lo siguiente a tu archivo :file:`app/config/routing.yml`.
+
+.. code-block:: yaml
+
+    sylius_inventory:
+        resource: @SyliusInventoryBundle/Resources/config/routing.yml
+
+
+Actualizando el esquema de la base de datos
+-------------------------------------------
+
+Recuerda actualizar el esquema de tu base de datos.
+
+Para el controlador de «``doctrine/orm``» ejecuta la siguiente orden:
+
+.. code-block:: bash
+
+    $ php app/console doctrine:schema:update --force
+
+.. warning::
+
+    ¡Esto sólo se debería hacer en el entorno ``dev``! Te recomendamos utilizar las migraciones de *Doctrine*, para actualizar tu esquema sin incidentes.
+
+Plantillas
+----------
+
+El paquete proporciona `plantillas de arranque <http://twitter.github.com/bootstrap/>`_.
+
+.. note::
+
+    Puedes revisar nuestra `aplicación del entorno de pruebas <https://github.com/Sylius/Sylius-Sandbox>`_ para ver cómo integrarlo en tu aplicación.

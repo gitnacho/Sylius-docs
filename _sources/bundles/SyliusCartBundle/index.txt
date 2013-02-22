@@ -1,0 +1,22 @@
+``SyliusCartBundle``
+====================
+
+Una solución genérica para el sistema de carrito de compra en una aplicación *Symfony2*. 
+
+No importa si estás empezando un nuevo proyecto o necesitas implementar esta característica en un sistema existente --- este paquete te será útil.
+Actualmente sólo está implementado el controlador del *ORM* de *Doctrine*, por lo tanto lo utilizaremos aquí como ejemplo.
+
+Hay dos modelos principales dentro del paquete, ``Cart`` y ``CartItem``.
+
+También hay dos servicios principales, ``Provider`` e ``ItemResolver``.
+Te familiarizarás con ellos en partes adicionales de esta documentación.
+
+.. toctree::
+   :numbered:
+
+   installation
+   models
+   actions
+   services
+   templating
+   summary

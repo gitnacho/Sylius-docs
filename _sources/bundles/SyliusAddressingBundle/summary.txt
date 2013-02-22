@@ -1,0 +1,71 @@
+Resumen
+=======
+
+Referencia de configuración
+---------------------------
+
+.. code-block:: yaml
+
+    sylius_addressing:
+        driver: ~ # El controlador usado por la capa de persistencia.
+        engine: twig # Motor de plantillas a usar por omisión.
+        classes:
+            address:
+                model: ~ # La clase del modelo dirección.
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: ~ # Aquí puedes sustituir la clase del repositorio.
+                form: Sylius\Bundle\AddressingBundle\Form\Type\AddressType # El nombre del tipo formulario a usar.
+            country:
+                model: ~ # La clase del modelo país.
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: ~ # Aquí puedes sustituir la clase del repositorio.
+                form: Sylius\Bundle\AddressingBundle\Form\Type\CountryType # El nombre de la clase del tipo formulario a usar.
+            province:
+                model: ~ # La clase del modelo provincia.
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: ~ # Aquí puedes sustituir la clase del repositorio.
+                form: Sylius\Bundle\AddressingBundle\Form\Type\ProvinceType # El nombre de la clase del tipo formulario a usar.
+            zone:
+                model: ~ # La clase del modelo zona.
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: ~ # Aquí puedes sustituir la clase del repositorio.
+                form: Sylius\Bundle\AddressingBundle\Form\Type\ZoneType # El nombre de la clase del tipo formulario a usar
+            zone_member:
+                model: ~ # La clase del miembro modelo.
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: ~ # Aquí puedes sustituir la clase del repositorio.
+                form: Sylius\Bundle\AddressingBundle\Form\Type\ZoneMemberType # El nombre de la case del tipo formulario a usar
+            zone_member_country:
+                model: ~ # El modelo de la clsae miembro zona.
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: ~ # Aquí puedes sustituir la clase del repositorio.
+                form: Sylius\Bundle\AddressingBundle\Form\Type\ZoneMemberCountryType # El nombre de la clase del tipo formulario a usar
+            zone_member_province:
+                model: ~ # La clase del modelo miembro zona.
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: ~ # Aquí puedes sustituir la clase del repositorio.
+                form: Sylius\Bundle\AddressingBundle\Form\Type\ZoneMemberProvinceType # El nombre de la clase del tipo formulario a usar
+            zone_member_zone:
+                model: ~ # La clase del modelo miembro zona.
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: ~ # Aquí puedes sustituir la clase del repositorio.
+                form: Sylius\Bundle\AddressingBundle\Form\Type\ZoneMemberZoneType # El nombre de la clase del tipo formulario a usar
+
+Ejemplos de `phpspec2 <http://phpspec.net>`_
+--------------------------------------------
+
+.. code-block:: bash
+
+    $ composer install --dev --prefer-dist
+    $ bin/phpspec run -f pretty
+
+Ejemplos funcionando
+--------------------
+
+Si quieres ver una implementación funcionando, prueba la aplicación `del entorno de pruebas Sylius <http://github.com/Sylius/Sylius-Sandbox>`_.
+
+Seguimiento de fallos
+---------------------
+
+Este paquete utiliza las `incidencias de GitHub <https://github.com/Sylius/SyliusAddressingBundle/issues>`_.
+Si encuentras un fallo, por favor crea una incidencia.

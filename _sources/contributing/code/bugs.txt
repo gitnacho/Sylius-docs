@@ -1,0 +1,22 @@
+Informando fallos
+=================
+
+Todos los paquetes y ``Sylius`` mismo, utilizan las **incidencias de GitHub** para seguir la pista de los fallos.
+Si encontráste un fallo, por favor crea una incidencia para corregir el repositorio.
+
+Antes de enviar un reporte de fallo:
+
+ * Comprueba doblemente la `documentación oficial <http://sylius.readthedocs.org/en/latest/index.html>`_ para ver si no estás malutilizando el paquete o ``Sylius``;
+
+ * Solicita asistencia a los `usuarios de la lista de correo <http://groups.google.com/group/sylius>`_, o en el canal `IRC de #sylius <irc://irc.freenode.net/sylius>`_ si no estás seguro si tu incidencia realmente es un fallo.
+
+Si tu problema definitivamente parece un fallo, repórtalo utilizando las **incidencias de GitHub**.
+
+ * Utiliza el campo título para describir claramente el problema;
+
+ * Describe los pasos necesarios para reproducir el fallo con breves ejemplos de código (proporcionando una prueba unitaria que ilustre mejor el fallo);
+
+ * Proporciona tantos detalles como sea posibles sobre tu entorno (*SO*, versión de *PHP*, versión de *Symfony*, versión de ``Sylius``, extensiones habilitadas, ...);
+
+ * *(opcional)* Adjunta un :doc:`parche <patches>`.
+

@@ -1,0 +1,6 @@
+``SyliusResourceBundle``
+========================
+
+.. note::
+
+    Por escribirse.

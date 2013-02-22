@@ -1,0 +1,28 @@
+En plantillas
+=============
+
+Al utilizar *Twig* como motor de plantillas, tienes acceso a dos convenientes funciones.
+
+La fución ``sylius_cart_get`` usa proveedores para conseguir el carrito actual.
+
+.. code-block:: jinja
+
+    {% set cart = sylius_cart_get() %}
+
+    Current cart totals: {{ cart.total }} for {{ cart.totalItems }} items!
+
+``sylius_cart_form`` devuelve la vista del formulario para ``CartItem``. Esta te facilita la construcción de acciones más complejas para añadir elementos al carrito. En este sencillo ejemplo permitimos proporcionar la cantidad de elementos. Deberás procesar este formulario en tu resolutor.
+
+.. code-block:: jinja
+
+    {% set form = sylius_cart_form({'product': product}) %} {# puedes pasar opciones como argumento. #}
+
+    <form action="{{ path('sylius_cart_item_add', {'productId': product.id}) }}" method="post">
+        {{ form_row(form.quantity)}}
+        <input type="submit" value="Add to cart">
+    </form>
+
+.. note::
+
+     Puedes encontrar un ejemplo con múltiples variantes de este formulario en la aplicación `del entorno de pruebas Sylius <https://github.com/Sylius/Sylius-Sandbox/blob/master/src/Sylius/Bundle/SandboxBundle/Form/Type/CartItemType.php>`_.
+     Te permite seleccionar variación/cantidad/opciones del producto. Además se adapta al tipo de producto.

@@ -1,0 +1,346 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Instalando &mdash; Sylius en español</title>
+    
+    <link rel="stylesheet" href="../../_static/tnp.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="shortcut icon" href="../../_static/icotnp.ico"/>
+    <link rel="top" title="Sylius en español" href="../../index.html" />
+    <link rel="up" title="SyliusInventoryBundle" href="index.html" />
+    <link rel="next" title="2. Modelos" href="models.html" />
+    <link rel="prev" title="SyliusInventoryBundle" href="index.html" /> 
+  </head>
+  <body>
+  <div class="imalogo">
+    
+    <a href="../../index.html"><img src="http://gitnacho.github.com/tnp/_static/normaltnp.png" alt="Traducciones de Nacho Pacheco" /></a>
+    <div class="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="esymfony" data-lang="es">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div id="searchbox">
+      <form class="searc " action="../../search.html" method="get">
+      <input type="search" name="q" placeholder="Término a buscar" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+    
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="models.html" title="2. Modelos"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="SyliusInventoryBundle"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusInventoryBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="instalando">
+<h1>1. Instalando<a class="headerlink" href="#instalando" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Suponemos que estás familiarizado con <a class="reference external" href="http://packagist.org">Composer</a>, un gestor de dependencias para <em>PHP</em>.</p>
+<p>Usa la siguiente orden para añadir el paquete a tu archivo <tt class="file docutils literal"><span class="pre">composer.json</span></tt> y descargarlo.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>composer require sylius/inventory-bundle:*
+</pre></div>
+</div>
+<div class="section" id="anadiendo-al-nucleo-los-paquetes-necesarios">
+<h2>1.1. Añadiendo al núcleo los paquetes necesarios<a class="headerlink" href="#anadiendo-al-nucleo-los-paquetes-necesarios" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Primero, debes habilitar el paquete dentro del núcleo.
+Si no estás utilizando ningún otro paquete <tt class="docutils literal"><span class="pre">Sylius</span></tt>, también necesitarás añadir al núcleo el <tt class="docutils literal"><span class="pre">SyliusResourceBundle</span></tt> y sus dependencias.
+No te preocupes, todo será instalado automáticamente vía <em>Composer</em>.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// app/AppKernel.php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">registerBundles</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$bundles</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="c1">// ...</span>
+        <span class="k">new</span> <span class="nx">FOS\RestBundle\FOSRestBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Sylius\Bundle\ResourceBundle\SyliusResourceBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Sylius\Bundle\InventoryBundle\SyliusInventoryBundle</span><span class="p">(),</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creando-tus-entidades">
+<h2>1.2. Creando tus entidades<a class="headerlink" href="#creando-tus-entidades" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Supón que deseas implementar una aplicación para una librería y darle seguimiento a su inventario de libros.</p>
+<p>Debes crear las entidades <tt class="docutils literal"><span class="pre">Libro</span></tt> e <tt class="docutils literal"><span class="pre">InventoryUnit</span></tt>, que viven dentro del código de tu aplicación.
+Creemos que mantener <strong>lo más simple posible la estructura del paquete en la aplicación específica</strong> es una buena práctica, por lo tanto asumimos que tienes registrado tu <tt class="docutils literal"><span class="pre">AppBundle</span></tt> bajo el espacio de nombres <tt class="docutils literal"><span class="pre">App\Bundle\AppBundle</span></tt>.</p>
+<p>Crearemos la entidad <tt class="docutils literal"><span class="pre">Libro</span></tt>.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// src/App/AppBundle/Entity/Book.php</span>
+<span class="k">namespace</span> <span class="nx">App\AppBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Sylius\Bundle\InventoryBundle\Model\StockableInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Doctrine\ORM\Mapping</span> <span class="k">as</span> <span class="nx">ORM</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @ORM\Entity</span>
+<span class="sd"> * @ORM\Table(name=&quot;app_book&quot;)</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">Book</span> <span class="k">implements</span> <span class="nx">StockableInterface</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Id</span>
+<span class="sd">     * @ORM\Column(type=&quot;integer&quot;)</span>
+<span class="sd">     * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$id</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Column(type=&quot;string&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$isbn</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Column(type=&quot;string&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$title</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Column(type=&quot;integer&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$onHand</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Column(type=&quot;boolean&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$availableOnDemand</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onHand</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">availableOnDemand</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getId</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getIsbn</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">isbn</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setIsbn</span><span class="p">(</span><span class="nv">$isbn</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">isbn</span> <span class="o">=</span> <span class="nv">$isbn</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getSku</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getIsbn</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getTitle</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">title</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setTitle</span><span class="p">(</span><span class="nv">$title</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">title</span> <span class="o">=</span> <span class="nv">$title</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getInventoryName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getTitle</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">isInStock</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onHand</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">isAvailableOnDemand</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">availableOnDemand</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setAvailableOnDemand</span><span class="p">(</span><span class="nv">$availableOnDemand</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">availableOnDemand</span> <span class="o">=</span> <span class="p">(</span><span class="nx">Boolean</span><span class="p">)</span> <span class="nv">$availableOnDemand</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getOnHand</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onHand</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setOnHand</span><span class="p">(</span><span class="nv">$onHand</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onHand</span> <span class="o">=</span> <span class="nv">$onHand</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Este ejemplo muestra todo el poder de <tt class="docutils literal"><span class="pre">StockableInterface</span></tt>.
+El paquete también proporciona la entidad <tt class="docutils literal"><span class="pre">Stockable</span></tt> que implementa por ti la <tt class="docutils literal"><span class="pre">StockableInterface</span></tt>.
+Al extender la enditidad <tt class="docutils literal"><span class="pre">Stockable</span></tt>, el ejemplo anterior se puede simplificar dramáticamente.</p>
+</div>
+<p>A fin de seguir la pista del inventario de libros, nuestra entidad <tt class="docutils literal"><span class="pre">Libro</span></tt> debe implementar la <tt class="docutils literal"><span class="pre">StockableInterface</span></tt>.
+Ten en cuenta que añadimos el método <tt class="docutils literal"><span class="pre">-&gt;getSku()</span></tt> que es una alias para <tt class="docutils literal"><span class="pre">-&gt;getIsbn()</span></tt>, este es el poder de la interfaz, tienes total control sobre la asignación de la entidad.
+Algo similar va para <tt class="docutils literal"><span class="pre">-&gt;getInventoryName()</span></tt> el cual expone el título de libro al exhibir el nombre para nuestra entidad <tt class="docutils literal"><span class="pre">inventariable</span></tt>.</p>
+<p>El siguiente paso requiere crear la entidad <tt class="docutils literal"><span class="pre">InventoryUnit</span></tt>:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// src/App/AppBundle/Entity/InventoryUnit.php</span>
+<span class="k">namespace</span> <span class="nx">App\AppBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Sylius\Bundle\InventoryBundle\Entity\InventoryUnit</span> <span class="k">as</span> <span class="nx">BaseInventoryUnit</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Doctrine\ORM\Mapping</span> <span class="k">as</span> <span class="nx">ORM</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @ORM\Entity</span>
+<span class="sd"> * @ORM\Table(name=&quot;app_inventory_unit&quot;)</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">InventoryUnit</span> <span class="k">extends</span> <span class="nx">BaseInventoryUnit</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Id</span>
+<span class="sd">     * @ORM\Column(type=&quot;integer&quot;)</span>
+<span class="sd">     * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$id</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Ten en cuenta que estas utilizando la entidad base del paquete <tt class="docutils literal"><span class="pre">Sylius</span></tt>, lo cual significa heredar alguna funcionalidad proporcionada por el paquete de inventario.
+<tt class="docutils literal"><span class="pre">InventoryUnit</span></tt> mantiene la referencia al objeto <tt class="docutils literal"><span class="pre">inventariable</span></tt>, la cual es el <tt class="docutils literal"><span class="pre">Libro</span></tt> en nuestro caso.
+Por lo tanto, si utilizaste <tt class="docutils literal"><span class="pre">InventoryOperator</span></tt> para crear las unidades del inventario,ellas hacen referencia a la entidad del libro dado.</p>
+</div>
+<div class="section" id="configurando-el-contenedor">
+<h2>1.3. Configurando el contenedor<a class="headerlink" href="#configurando-el-contenedor" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Coloca esta configuración dentro de tu archivo <tt class="file docutils literal"><span class="pre">app/config/config.yml</span></tt>.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">sylius_inventory</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">driver</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">doctrine/orm</span>
+    <span class="l-Scalar-Plain">backorders</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+    <span class="l-Scalar-Plain">classes</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">unit</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">model</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">App\AppBundle\Entity\InventoryUnit</span>
+        <span class="l-Scalar-Plain">stockable</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">model</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">App\AppBundle\Entity\Book</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configurando-el-enrutado">
+<h2>1.4. Configurando el enrutado<a class="headerlink" href="#configurando-el-enrutado" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Importa la configuración de enrutado añadiendo lo siguiente a tu archivo <tt class="file docutils literal"><span class="pre">app/config/routing.yml</span></tt>.</p>
+<div class="highlight-yaml"><pre>sylius_inventory:
+    resource: @SyliusInventoryBundle/Resources/config/routing.yml</pre>
+</div>
+</div>
+<div class="section" id="actualizando-el-esquema-de-la-base-de-datos">
+<h2>1.5. Actualizando el esquema de la base de datos<a class="headerlink" href="#actualizando-el-esquema-de-la-base-de-datos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Recuerda actualizar el esquema de tu base de datos.</p>
+<p>Para el controlador de «<tt class="docutils literal"><span class="pre">doctrine/orm</span></tt>» ejecuta la siguiente orden:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php app/console doctrine:schema:update --force
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last">¡Esto sólo se debería hacer en el entorno <tt class="docutils literal"><span class="pre">dev</span></tt>! Te recomendamos utilizar las migraciones de <em>Doctrine</em>, para actualizar tu esquema sin incidentes.</p>
+</div>
+</div>
+<div class="section" id="plantillas">
+<h2>1.6. Plantillas<a class="headerlink" href="#plantillas" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El paquete proporciona <a class="reference external" href="http://twitter.github.com/bootstrap/">plantillas de arranque</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Puedes revisar nuestra <a class="reference external" href="https://github.com/Sylius/Sylius-Sandbox">aplicación del entorno de pruebas</a> para ver cómo integrarlo en tu aplicación.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div style="width:740px;margin:10px auto;">
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="models.html" title="2. Modelos"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="SyliusInventoryBundle"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusInventoryBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+   <div style="width: 740px; margin: 0 auto;">
+     <div id="disqus_thread"></div>
+     
+    <div class="footer">
+        &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
+      Actualizado por última vez en Feb 22, 2013.
+      Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+   </div>
+   <script type="text/javascript">
+    var disqus_shortname = 'documentos-mx';
+    var disqus_developer = 1;
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+   </script>
+   <noscript>
+     Por favor activa JavaScript para ver los <a href="http://disqus.com/?ref_noscript">comentarios accionados por Disqus.</a>
+   </noscript>
+
+  </body>
+</html>

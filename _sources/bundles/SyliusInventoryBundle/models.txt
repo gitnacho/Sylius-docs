@@ -1,0 +1,17 @@
+Modelos
+=======
+
+Aquí tienes una referencia rápida de los modelos predefinidos.
+
+``InventoryUnit``
+-----------------
+
+Cada unidad mantiene una referencia al objeto ``inventariable`` y su estado, el cual se puede **vender** o estar **pendiente de entrega**.
+También proporciona algunos convenientes atajos a métodos tal como ``isSold``, ``isBackordered`` y ``getSku``.
+
+``Stockable``
+-------------
+
+Para poder seguir niveles de las existencias en tu aplicación, debes implementar la ``StockableInterface`` o usar el modelo ``Stockable``.
+Este utiliza ``SKU`` para identificar el ``inventariable``, necesitas proporcionar el nombre a mostrar y comprobar si ``inventariable`` está disponible bajo demanda.
+Puedes obtener/establecer el nivel de existencias actual con los métodos ``getOnHand`` y ``setOnHand``.

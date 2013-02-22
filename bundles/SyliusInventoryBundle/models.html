@@ -1,0 +1,139 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Modelos &mdash; Sylius en español</title>
+    
+    <link rel="stylesheet" href="../../_static/tnp.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="shortcut icon" href="../../_static/icotnp.ico"/>
+    <link rel="top" title="Sylius en español" href="../../index.html" />
+    <link rel="up" title="SyliusInventoryBundle" href="index.html" />
+    <link rel="next" title="3. Usando los servicios" href="services.html" />
+    <link rel="prev" title="1. Instalando" href="installation.html" /> 
+  </head>
+  <body>
+  <div class="imalogo">
+    
+    <a href="../../index.html"><img src="http://gitnacho.github.com/tnp/_static/normaltnp.png" alt="Traducciones de Nacho Pacheco" /></a>
+    <div class="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="esymfony" data-lang="es">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div id="searchbox">
+      <form class="searc " action="../../search.html" method="get">
+      <input type="search" name="q" placeholder="Término a buscar" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+    
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="services.html" title="3. Usando los servicios"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="1. Instalando"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusInventoryBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="modelos">
+<h1>2. Modelos<a class="headerlink" href="#modelos" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Aquí tienes una referencia rápida de los modelos predefinidos.</p>
+<div class="section" id="inventoryunit">
+<h2>2.1. <tt class="docutils literal"><span class="pre">InventoryUnit</span></tt><a class="headerlink" href="#inventoryunit" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Cada unidad mantiene una referencia al objeto <tt class="docutils literal"><span class="pre">inventariable</span></tt> y su estado, el cual se puede <strong>vender</strong> o estar <strong>pendiente de entrega</strong>.
+También proporciona algunos convenientes atajos a métodos tal como <tt class="docutils literal"><span class="pre">isSold</span></tt>, <tt class="docutils literal"><span class="pre">isBackordered</span></tt> y <tt class="docutils literal"><span class="pre">getSku</span></tt>.</p>
+</div>
+<div class="section" id="stockable">
+<h2>2.2. <tt class="docutils literal"><span class="pre">Stockable</span></tt><a class="headerlink" href="#stockable" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para poder seguir niveles de las existencias en tu aplicación, debes implementar la <tt class="docutils literal"><span class="pre">StockableInterface</span></tt> o usar el modelo <tt class="docutils literal"><span class="pre">Stockable</span></tt>.
+Este utiliza <tt class="docutils literal"><span class="pre">SKU</span></tt> para identificar el <tt class="docutils literal"><span class="pre">inventariable</span></tt>, necesitas proporcionar el nombre a mostrar y comprobar si <tt class="docutils literal"><span class="pre">inventariable</span></tt> está disponible bajo demanda.
+Puedes obtener/establecer el nivel de existencias actual con los métodos <tt class="docutils literal"><span class="pre">getOnHand</span></tt> y <tt class="docutils literal"><span class="pre">setOnHand</span></tt>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div style="width:740px;margin:10px auto;">
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="services.html" title="3. Usando los servicios"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="1. Instalando"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusInventoryBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+   <div style="width: 740px; margin: 0 auto;">
+     <div id="disqus_thread"></div>
+     
+    <div class="footer">
+        &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
+      Actualizado por última vez en Feb 22, 2013.
+      Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+   </div>
+   <script type="text/javascript">
+    var disqus_shortname = 'documentos-mx';
+    var disqus_developer = 1;
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+   </script>
+   <noscript>
+     Por favor activa JavaScript para ver los <a href="http://disqus.com/?ref_noscript">comentarios accionados por Disqus.</a>
+   </noscript>
+
+  </body>
+</html>

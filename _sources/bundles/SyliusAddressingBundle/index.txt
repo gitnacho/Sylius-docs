@@ -1,0 +1,22 @@
+``SyliusAddressingBundle``
+==========================
+
+Sistema de reparto para aplicaciones *Symfony2*.
+
+Con mínima configuración puedes introducir direcciones, países, provincias y gestionar zonas en tu proyecto.
+
+Es totalmente personalizable, pero la configuración predeterminada debería ser optima para la mayoría de los casos de uso.
+
+Hay varios modelos dentro del paquete, `Dirección`, `País`, `Provincia`, `Zona` y `MiembroZona`.
+
+También hay un servicio ``ZoneMatcher`` (emparejador de zona).
+Te familiarizarás con él más adelante en esta documentación.
+
+.. toctree::
+   :maxdepth: 1
+   :numbered:
+
+   installation
+   models
+   services
+   summary

@@ -1,0 +1,26 @@
+Modelos
+=======
+
+Aquí tienes una referencia rápida de los modelos predefinidos.
+
+``Address``, ``Country`` y ``Province``
+---------------------------------------
+
+Hay tres modelos predefinidos para representar direcciones.
+El modelo ``Address`` en sí mismo está representado por el primer y último nombre, país, provincia, calle, ciudad y código postal.
+``Country`` está representado con el nombre y código ISO 3166-1, y se puede referir a una colección de provincias.
+
+``Zone``
+--------
+
+Las zonas sirven como mecanismo para agrupar áreas geográficas junto a una única entidad. Cada zona tiene nombre, tipo y una colección de zonas miembro.
+Hay tres tipos de zona disponibles: el tipo país, provincia y zona.
+Si zona es del tipo país, esta puede consistir de uno o más países, un ejemplo de este tipo de zona puede ser EU.
+De manera similar, la zona puede consistir de una o más provincias si es del tipo provincia. Y finalmente, una zona también puede consistir de otras zonas.
+
+``ZoneMember``
+--------------
+
+Hay un modelo base para zonas miembro, y para cada tipo de zona, hay un modelo miembro derivado de zona:
+*ZoneMemberCountry*, *ZoneMemberProvince* y *ZoneMemberZone*.
+Cada una de ellas conecta un modelo de *Zona* con *País*, *Provincia* en una colección de zonas miembro con la interfaz común ``ZoneMemberInterface``.

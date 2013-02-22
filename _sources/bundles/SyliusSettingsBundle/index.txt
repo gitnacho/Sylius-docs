@@ -1,0 +1,6 @@
+``SyliusSettingsBundle``
+========================
+
+.. note::
+
+    Por escribirse.

@@ -1,0 +1,122 @@
+Instalando
+==========
+
+Suponemos que estás familiarizado con `Composer <http://packagist.org>`_, un gestor de dependencias para *PHP*.
+
+Usa la siguiente orden para añadir el paquete a tu archivo :file:`composer.json` y descargarlo.
+
+.. code-block:: bash
+
+    $ composer require sylius/addressing-bundle:*
+
+Añadiendo al núcleo los paquetes necesarios
+-------------------------------------------
+
+Primero, debes habilitar el paquete dentro del núcleo.
+Si no estás utilizando ningún otro paquete ``Sylius``, también necesitarás añadir al núcleo el ``SyliusResourceBundle`` y sus dependencias.
+No te preocupes, todo será instalado automáticamente vía *Composer*.
+
+.. code-block:: php
+
+    <?php
+
+    // app/AppKernel.php
+
+    public function registerBundles()
+    {
+        $bundles = array(
+            // ...
+            new FOS\RestBundle\FOSRestBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle($this),
+            new Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
+            new Sylius\Bundle\AddressingBundle\SyliusAddressingBundle(),
+        );
+    }
+
+Configurando el contenedor
+--------------------------
+
+Coloca esta configuración dentro de tu archivo :file:`app/config/config.yml`.
+
+.. code-block:: yaml
+
+    sylius_addressing:
+        driver: doctrine/orm # Configura el controlador del orm de doctrine usado en la documentación.
+
+Configurando el enrutado
+------------------------
+
+Aquí te mostramos un ejemplo de cómo puedes configurar el enrutado.
+El enrutado está basado en ``SyliusResourceBundle``.
+
+Añade lo siguiente al archivo :file:`app/config/routing.yml`.
+
+.. code-block:: yaml
+
+   sylius_address_list:
+       pattern: /address/list
+       defaults:
+           _controller: sylius_addressing.controller.address:getCollectionAction
+           _sylius.resource:
+               template: AcmeDemoBundle:Address:list.html.twig
+               sortable: true
+               sorting:
+                   updatedAt: desc
+
+   sylius_address_create:
+       pattern: /address/create
+       defaults:
+           _controller: sylius_addressing.controller.address:createAction
+           _sylius.resource:
+               template: AcmeDemoBundle:Address:create.html.twig
+               redirect: sylius_address_show
+
+   sylius_address_update:
+       pattern: /address/{id}/update
+       defaults:
+           _controller: sylius_addressing.controller.address:updateAction
+           _sylius.resource:
+               template: AcmeDemoBundle:Address:update.html.twig
+               redirect: sylius_address_show
+
+   sylius_address_delete:
+       pattern: /address/{id}/delete
+       defaults:
+           _controller: sylius_addressing.controller.address:deleteAction
+           _sylius.resource:
+               redirect: sylius_address_list
+
+   sylius_address_show:
+       pattern: /address/{id}
+       defaults:
+           _controller: sylius_addressing.controller.address:getAction
+           _sylius.resource:
+               template: AcmeDemoBundle:Address:show.html.twig
+
+
+Actualizando el esquema de la base de datos
+-------------------------------------------
+
+Recuerda actualizar el esquema de tu base de datos.
+
+Para el controlador de «``doctrine/orm``» ejecuta la siguiente orden:
+
+.. code-block:: bash
+
+    $ php app/console doctrine:schema:update --force
+
+.. warning::
+
+    ¡Esto sólo se debería hacer en el entorno ``dev``! Te recomendamos utilizar las migraciones de *Doctrine*, para actualizar tu esquema sin incidentes.
+
+Plantillas
+----------
+
+Creemos que proporcionar una razonable plantilla predefinida es realmente difícil.
+Esta es la razón por la cual actualmente no incluimos ninguna, pero si tienes una idea para una buena plantilla inicial, ¡háznolo saber!
+
+El paquete requiere las plantillas ``list``, ``create``, ``update`` y ``show`` para direcciones, y otras similares para las zonas.
+
+.. note::
+
+    Puedes utilizar las plantillas de nuestra `aplicación del entorno de pruebas <https://github.com/Sylius/Sylius-Sandbox/tree/master/src/Sylius/Bundle/SandboxBundle/Resources/views/Backend/Address>`_ para inspirarte.
