@@ -84,7 +84,7 @@ Supongamos que tienes una entidad ``Producto``, la cual representa tus principal
 
 .. note::
 
-    Por favor, recuerda que puedes utilizar cualquier otra cosa, aquí ``Producto`` solo es un ejemplo obvio, pero  este trabaja de manera similar con otras entidades.
+    Por favor, recuerda que puedes utilizar cualquier otra cosa, aquí ``Producto`` solo es un ejemplo obvio, pero este trabaja de manera similar con otras entidades.
 
 Necesitas modificar un poco la entidad ``CartItem`` y su asignación, para que nos permita poner elementos producto en el carrito de compra.
 
@@ -244,6 +244,10 @@ Esto se puede hacer de varias maneras, pero para mantener sencillo el ejemplo --
             return $this->entityManager->getRepository('AppBundle:Product');
         }
     }
+
+.. note::
+
+    Por favor, recuerda que el **elemento únicamente acepta enteros como precio y cantidad**.
 
 Registra nuestro nuevo servicio en el contenedor. Utilizaremos *XML* como ejemplo, estás en libertad de elegir cualquiera otro formato.
 

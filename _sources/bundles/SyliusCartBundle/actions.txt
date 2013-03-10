@@ -15,7 +15,7 @@ Esta reproducirá la página con las variables predefinidas ``cart`` y ``form``.
 Añadiendo elementos al carrito de compra
 ----------------------------------------
 
-En este sencillo ejemplo, sólo necesitas añadir el siguiente enlace en los sitios donde  necesites el botón «añadir al carro».
+En este sencillo ejemplo, sólo necesitas añadir el siguiente enlace en los sitios donde necesites el botón «añadir al carro».
 
 .. code-block:: html
 

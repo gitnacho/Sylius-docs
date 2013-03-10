@@ -11,7 +11,7 @@ Fundamentos *HTTP*
 
 *HTTP* («Hypertext Transfer Protocol» o mejor dicho el «Protocolo de transferencia de hipertexto») es un lenguaje de texto que permite a dos máquinas comunicarse entre sí.
 
-*Symfony2* está construido desde el principio en este protocolo.
+*Symfony2* está construido en los principios de este protocolo.
 
 Cada vez que algún cliente quiere acceder a una página de la tienda ``Sylius``, todo empieza con una ``petición``.
 Este mensaje de texto, creado por el navegador, es enviado a un servidor, el cual debería regresar una respuesta apropiada.
@@ -73,7 +73,7 @@ El siguiente controlador reproducirá una página que simplemente imprime ``Hell
         return new Response('Hello world!');
     }
 
-Cada página que ves en la tienda ``Sylius`` es el resultado de una acción del controlador.
+Cada página que ves en la tienda ``Sylius`` es el resultado de la acción de algún controlador.
 Cuando ves la página de un producto, enumeras todos los productos o exhibes el formulario de inicio de sesión, siempre es el resultado de este sencillo esquema, donde el controlador crea una ``Respuesta`` basándose en la ``Petición`` actual.
 
 Enrutado

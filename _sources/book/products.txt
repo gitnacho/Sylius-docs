@@ -1,0 +1,43 @@
+.. index::
+   single: Productos
+
+Productos
+=========
+
+...
+
+Variantes y la variante maestra
+-------------------------------
+
+...
+
+Opciones
+--------
+
+...
+
+
+Propiedades
+-----------
+
+...
+
+Prototipos
+----------
+
+...
+
+Imágenes
+--------
+
+...
+
+Consideraciones finales
+-----------------------
+
+...
+
+Aprende más
+-----------
+
+* ...

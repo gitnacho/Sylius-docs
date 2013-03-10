@@ -32,10 +32,10 @@ Ejemplos de `phpspec2 <http://phpspec.net>`_
     $ composer install --dev --prefer-dist
     $ bin/phpspec run -f pretty
 
-Ejemplos funcionando
---------------------
+Ejemplos operativos
+-------------------
 
-Si quieres ver una implementación funcionando, prueba la aplicación `del entorno de pruebas Sylius <http://github.com/Sylius/Sylius-Sandbox>`_.
+Si quieres ver una implementación operativa, prueba la aplicación `del entorno de pruebas Sylius <http://github.com/Sylius/Sylius-Sandbox>`_.
 
 Seguimiento de fallos
 ---------------------

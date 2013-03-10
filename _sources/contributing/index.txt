@@ -1,7 +1,7 @@
 Colaborando
 ===========
 
-Esta parte de la documentación está basada en la gran `documentación de *Symfony2* <http://gitnacho.github.com/symfony-docs-es>`_.
+Esta parte de la documentación está basada en la gran `documentación de Symfony2 <http://gitnacho.github.com/symfony-docs-es>`_.
 
 .. toctree::
    :hidden:

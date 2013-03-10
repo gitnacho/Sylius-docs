@@ -252,8 +252,8 @@ Ahora puedes probar simplemente usando esta orden:
 
         $ phpunit
 
-Ejemplos funcionando
---------------------
+Ejemplos operativos
+-------------------
 
 Si quieres ver este y otros paquetes en acción, prueba la aplicación `del entorno de pruebas Sylius <http://github.com/Sylius/Sylius-Sandbox>`_.
 

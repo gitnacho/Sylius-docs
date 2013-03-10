@@ -1,0 +1,32 @@
+.. index::
+   single: Arquitectura:
+
+Fundamentos de la arquitectura
+==============================
+
+...
+
+Paquetes, el cúcleo y la interfaz *Web*
+---------------------------------------
+
+...
+
+Interfaces de persistencia comunes en *Doctrine*
+------------------------------------------------
+
+...
+
+``SyliusResourceBundle``
+------------------------
+
+...
+
+Consideraciones finales
+-----------------------
+
+...
+
+Aprende más
+-----------
+
+* ...

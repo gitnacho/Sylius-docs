@@ -3,8 +3,8 @@ Documentación de ``Sylius``
 
 `Sylius <http://sylius.org>`_ es una moderna solución de comercio electrónico para *PHP*, basada en lo alto de la plataforma `Symfony2 <http://symfony.com>`_.
 
-Libro
------
+El libro
+--------
 
 Guía para desarrolladores aprovechando la flexibilidad de ``Sylius``.
 
@@ -16,6 +16,18 @@ Guía para desarrolladores aprovechando la flexibilidad de ``Sylius``.
    book/introduction
 
 .. include:: /book/map.rst.inc
+
+Recetario
+---------
+
+Soluciones específicas a necesidades específicas.
+
+.. toctree::
+   :hidden:
+
+   cookbook/index
+
+.. include:: /cookbook/map.rst.inc
 
 Paquetes
 --------
