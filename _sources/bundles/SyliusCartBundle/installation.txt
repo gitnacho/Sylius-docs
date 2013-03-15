@@ -235,7 +235,7 @@ Esto se puede hacer de varias maneras, pero para mantener sencillo el ejemplo --
             $item->setProduct($product);
             $item->setUnitPrice($product->getPrice());
 
-            // Todo estubo bien, regresa el elemento.
+            // Todo estuvo bien, regresa el elemento.
             return $item;
         }
 

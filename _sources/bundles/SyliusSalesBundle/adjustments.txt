@@ -1,0 +1,12 @@
+Los ajustes
+===========
+
+Los ajustes están basados en una sencilla pero poderosa idea inspirada en `Juerga de ajustes <http://guides.spreecommerce.com/adjustments.html>`_.
+Sirven como fundamento para cualquier sistema de impuestos, embarque y descuentos.
+
+Ajustes del modelo
+------------------
+
+.. note::
+
+    Por escribirse.

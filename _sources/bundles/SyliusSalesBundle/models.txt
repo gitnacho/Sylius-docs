@@ -1,0 +1,113 @@
+``Order`` y ``OrderItem``
+=========================
+
+Aquí tienes una referencia rápida de qué pueden hacer por ti los modelos predefinidos.
+
+Fundamentos de ``Order``
+------------------------
+
+Cada orden tiene 2 identificadores principales, un *ID* y un *número* humanamente legible.
+Puedes acceder a ellos llamando a ``->getId()`` y ``-getNumber()`` respectivamente.
+El número es mutable, así que lo puedes cambiar llamando a ``->setNumber('E001')`` en el caso de pedido.
+
+.. code-block:: php
+
+    <?php
+
+    $order->getId();
+    $order->getNumber();
+
+    $order->setNumber('E001');
+
+Confirmando es estado
+---------------------
+
+Para comprobar si el pedido está confirmado o no, puedes utilizar el método ``isConfirmed()``, el cual regresa valor ``true/false``.
+Para cambiar el estado, puedes utilizar el definidor de confirmación, ``setConfirmed(false)``. Todos los pedidos de manera predeterminada están confirmados, a no ser hayas habilitado la característica de confirmación por correo electrónico.
+El pedido también puede contener una ficha de confirmación, accesible por los captadores y definidores apropiados.
+
+.. code-block:: php
+
+    <?php
+
+    if ($order->isConfirmed()) {
+        echo 'This one is confirmed, great!';
+    }
+
+Totales del pedido
+------------------
+
+.. note::
+
+    Toda cantidad de dinero en *Sylius* está representada como «centavos» --- enteros.
+
+El pedido cuenta con 3 totales básicos, todos los cuales son persistidos junto con el pedido.
+
+El primer total es el *total de elementos*, se calcula con la suma de todos los elemento en total.
+
+El segundo total es el *total de ajustes*, puedes leer más sobre ellos en el próximo capítulo.
+
+.. code-block:: php
+
+    <?php
+
+    echo $order->getItemsTotal(); // 1900.
+    echo $order->getAdjustmentsTotal(); // -250.
+
+    $order->calculateTotal();
+    echo $order->getTotal(); // 1650.
+
+Total principal del pedido es la suma de los valores mencionados anteriormente.
+Puedes acceder al valor total del pedido utilizando el método ``->getTotal()``.
+Puedes recalcular los totales llamando al método ``->calculateTotal()``, utilizando la aritmética más sencilla posible. Este también actualizará los totales por elemento.
+
+Gestión de elementos
+--------------------
+
+La colección de elementos (Implementando la interfaz ``Doctrine\Common\Collections\Collection``) se puede obtener utilizando el método ``->getItems()``.
+Para añadir o quitar elementos, puedes utilizar sencillamente los métodos ``addItem`` y ``removeItem``.
+
+.. code-block:: php
+
+    <?php
+
+    // $item1 e $item2 son instancias de OrderItemInterface.
+    $order
+        ->addItem($item)
+        ->removeItem($item2)
+    ;
+
+Fundamentos de ``OrderItem``
+----------------------------
+
+El modelo del elemento del pedido únicamente tiene el ``id`` como identificador, también  tiene el pedido al cual  pertenece, accesible a través del método ``->getOrder()``.
+
+El objeto vendible se puede recuperar y fijar, utilizando el siguiente captador y definidor --- ``->getSellable()`` y ``->setSellable(SellableInterface $sellable)``.
+
+.. code-block:: php
+
+    <?php
+
+    $item->setSellable($book);
+
+.. note::
+
+    En muchos casos utilizarás el servicio **OrderBuilder** para crear tus pedidos.
+
+Al igual que para el pedido, el total está disponible a través del mismo método, pero el precio unitario es accesible utilizando el método ``->getUnitPrice()``, además, cada elemento puede calcular su total, utilizando la cantidad (``->getQuantity()``) y el precio de unitario.
+
+.. code-block:: php
+
+    <?php
+
+    $item = $itemRepository->createNew();
+    $item
+        ->setSellable($book)
+        ->setUnitPrice(2000)
+        ->setQuantity(4)
+        ->calculateTotal()
+    ;
+
+    echo $item->getTotal(); // 8000.
+
+``OrderItem`` también puede contener opciones.

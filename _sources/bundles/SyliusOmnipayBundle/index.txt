@@ -1,0 +1,6 @@
+``SyliusOmnipayBundle``
+=======================
+
+.. note::
+
+    Por escribirse.

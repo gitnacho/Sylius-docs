@@ -1,0 +1,220 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Order y OrderItem &mdash; Sylius en español</title>
+    
+    <link rel="stylesheet" href="../../_static/tnp.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="shortcut icon" href="../../_static/icotnp.ico"/>
+    <link rel="top" title="Sylius en español" href="../../index.html" />
+    <link rel="up" title="SyliusSalesBundle" href="index.html" />
+    <link rel="next" title="3. Los ajustes" href="adjustments.html" />
+    <link rel="prev" title="1. Instalando" href="installation.html" /> 
+  </head>
+  <body>
+  <div class="imalogo">
+    
+    <a href="../../index.html"><img src="http://gitnacho.github.com/tnp/_static/normaltnp.png" alt="Traducciones de Nacho Pacheco" /></a>
+    <div class="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="esymfony" data-lang="es">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div id="searchbox">
+      <form class="searc " action="../../search.html" method="get">
+      <input type="search" name="q" placeholder="Término a buscar" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+    
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="adjustments.html" title="3. Los ajustes"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="1. Instalando"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusSalesBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="order-y-orderitem">
+<h1>2. <tt class="docutils literal"><span class="pre">Order</span></tt> y <tt class="docutils literal"><span class="pre">OrderItem</span></tt><a class="headerlink" href="#order-y-orderitem" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Aquí tienes una referencia rápida de qué pueden hacer por ti los modelos predefinidos.</p>
+<div class="section" id="fundamentos-de-order">
+<h2>2.1. Fundamentos de <tt class="docutils literal"><span class="pre">Order</span></tt><a class="headerlink" href="#fundamentos-de-order" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Cada orden tiene 2 identificadores principales, un <em>ID</em> y un <em>número</em> humanamente legible.
+Puedes acceder a ellos llamando a <tt class="docutils literal"><span class="pre">-&gt;getId()</span></tt> y <tt class="docutils literal"><span class="pre">-getNumber()</span></tt> respectivamente.
+El número es mutable, así que lo puedes cambiar llamando a <tt class="docutils literal"><span class="pre">-&gt;setNumber('E001')</span></tt> en el caso de pedido.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="nv">$order</span><span class="o">-&gt;</span><span class="na">getId</span><span class="p">();</span>
+<span class="nv">$order</span><span class="o">-&gt;</span><span class="na">getNumber</span><span class="p">();</span>
+
+<span class="nv">$order</span><span class="o">-&gt;</span><span class="na">setNumber</span><span class="p">(</span><span class="s1">&#39;E001&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="confirmando-es-estado">
+<h2>2.2. Confirmando es estado<a class="headerlink" href="#confirmando-es-estado" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para comprobar si el pedido está confirmado o no, puedes utilizar el método <tt class="docutils literal"><span class="pre">isConfirmed()</span></tt>, el cual regresa valor <tt class="docutils literal"><span class="pre">true/false</span></tt>.
+Para cambiar el estado, puedes utilizar el definidor de confirmación, <tt class="docutils literal"><span class="pre">setConfirmed(false)</span></tt>. Todos los pedidos de manera predeterminada están confirmados, a no ser hayas habilitado la característica de confirmación por correo electrónico.
+El pedido también puede contener una ficha de confirmación, accesible por los captadores y definidores apropiados.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$order</span><span class="o">-&gt;</span><span class="na">isConfirmed</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">&#39;This one is confirmed, great!&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="totales-del-pedido">
+<h2>2.3. Totales del pedido<a class="headerlink" href="#totales-del-pedido" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Toda cantidad de dinero en <em>Sylius</em> está representada como «centavos» &#8212; enteros.</p>
+</div>
+<p>El pedido cuenta con 3 totales básicos, todos los cuales son persistidos junto con el pedido.</p>
+<p>El primer total es el <em>total de elementos</em>, se calcula con la suma de todos los elemento en total.</p>
+<p>El segundo total es el <em>total de ajustes</em>, puedes leer más sobre ellos en el próximo capítulo.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">echo</span> <span class="nv">$order</span><span class="o">-&gt;</span><span class="na">getItemsTotal</span><span class="p">();</span> <span class="c1">// 1900.</span>
+<span class="k">echo</span> <span class="nv">$order</span><span class="o">-&gt;</span><span class="na">getAdjustmentsTotal</span><span class="p">();</span> <span class="c1">// -250.</span>
+
+<span class="nv">$order</span><span class="o">-&gt;</span><span class="na">calculateTotal</span><span class="p">();</span>
+<span class="k">echo</span> <span class="nv">$order</span><span class="o">-&gt;</span><span class="na">getTotal</span><span class="p">();</span> <span class="c1">// 1650.</span>
+</pre></div>
+</div>
+<p>Total principal del pedido es la suma de los valores mencionados anteriormente.
+Puedes acceder al valor total del pedido utilizando el método <tt class="docutils literal"><span class="pre">-&gt;getTotal()</span></tt>.
+Puedes recalcular los totales llamando al método <tt class="docutils literal"><span class="pre">-&gt;calculateTotal()</span></tt>, utilizando la aritmética más sencilla posible. Este también actualizará los totales por elemento.</p>
+</div>
+<div class="section" id="gestion-de-elementos">
+<h2>2.4. Gestión de elementos<a class="headerlink" href="#gestion-de-elementos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La colección de elementos (Implementando la interfaz <tt class="docutils literal"><span class="pre">Doctrine\Common\Collections\Collection</span></tt>) se puede obtener utilizando el método <tt class="docutils literal"><span class="pre">-&gt;getItems()</span></tt>.
+Para añadir o quitar elementos, puedes utilizar sencillamente los métodos <tt class="docutils literal"><span class="pre">addItem</span></tt> y <tt class="docutils literal"><span class="pre">removeItem</span></tt>.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// $item1 e $item2 son instancias de OrderItemInterface.</span>
+<span class="nv">$order</span>
+    <span class="o">-&gt;</span><span class="na">addItem</span><span class="p">(</span><span class="nv">$item</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">removeItem</span><span class="p">(</span><span class="nv">$item2</span><span class="p">)</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fundamentos-de-orderitem">
+<h2>2.5. Fundamentos de <tt class="docutils literal"><span class="pre">OrderItem</span></tt><a class="headerlink" href="#fundamentos-de-orderitem" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El modelo del elemento del pedido únicamente tiene el <tt class="docutils literal"><span class="pre">id</span></tt> como identificador, también  tiene el pedido al cual  pertenece, accesible a través del método <tt class="docutils literal"><span class="pre">-&gt;getOrder()</span></tt>.</p>
+<p>El objeto vendible se puede recuperar y fijar, utilizando el siguiente captador y definidor &#8212; <tt class="docutils literal"><span class="pre">-&gt;getSellable()</span></tt> y <tt class="docutils literal"><span class="pre">-&gt;setSellable(SellableInterface</span> <span class="pre">$sellable)</span></tt>.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="nv">$item</span><span class="o">-&gt;</span><span class="na">setSellable</span><span class="p">(</span><span class="nv">$book</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">En muchos casos utilizarás el servicio <strong>OrderBuilder</strong> para crear tus pedidos.</p>
+</div>
+<p>Al igual que para el pedido, el total está disponible a través del mismo método, pero el precio unitario es accesible utilizando el método <tt class="docutils literal"><span class="pre">-&gt;getUnitPrice()</span></tt>, además, cada elemento puede calcular su total, utilizando la cantidad (<tt class="docutils literal"><span class="pre">-&gt;getQuantity()</span></tt>) y el precio de unitario.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="nv">$item</span> <span class="o">=</span> <span class="nv">$itemRepository</span><span class="o">-&gt;</span><span class="na">createNew</span><span class="p">();</span>
+<span class="nv">$item</span>
+    <span class="o">-&gt;</span><span class="na">setSellable</span><span class="p">(</span><span class="nv">$book</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">setUnitPrice</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">setQuantity</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">calculateTotal</span><span class="p">()</span>
+<span class="p">;</span>
+
+<span class="k">echo</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">getTotal</span><span class="p">();</span> <span class="c1">// 8000.</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">OrderItem</span></tt> también puede contener opciones.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div style="width:740px;margin:10px auto;">
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="adjustments.html" title="3. Los ajustes"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="1. Instalando"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusSalesBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+   <div style="width: 740px; margin: 0 auto;">
+     <div id="disqus_thread"></div>
+     
+    <div class="footer">
+        &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
+      Actualizado por última vez en Mar 15, 2013.
+      Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+   </div>
+   <script type="text/javascript">
+    var disqus_shortname = 'documentos-mx';
+    var disqus_developer = 1;
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+   </script>
+   <noscript>
+     Por favor activa JavaScript para ver los <a href="http://disqus.com/?ref_noscript">comentarios accionados por Disqus.</a>
+   </noscript>
+
+  </body>
+</html>

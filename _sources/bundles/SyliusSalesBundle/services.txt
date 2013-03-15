@@ -1,0 +1,39 @@
+Usando los servicios
+====================
+
+Al utilizar el paquete, tienes acceso a varios útiles servicios.
+Los puedes utilizar para recuperar y persistir perdidos.
+
+Gestores y repositorios
+-----------------------
+
+.. note::
+
+    ``Sylius`` usa la interfaz ``Doctrine\Common\Persistence``.
+
+Tienes acceso a los siguientes servicios usados para gestionar y recuperar recursos.
+
+Este conjunto de servicios predefinidos se comparte a través de casi todos los paquetes de ``Sylius``, pero esto solamente es una convención.
+Interactúas con ellos como normalmente lo haces con tus propias entidades en tu proyecto.
+
+.. code-block:: php
+
+    <?php
+
+    // ObjectManager que es capaz de gestinoar recursos.
+    // Para el controlador *doctrine/orm* este es el EntityManager.
+    $this->get('sylius.manager.order');
+    $this->get('sylius.manager.order_item');
+    $this->get('sylius.manager.adjustment');
+
+    // ObjectRepository para el recurso Order, este extiende al EntityRepository base.
+    // Puedes utilizar la entidad como habitualmente lo hace el
+        // repositorio en el proyecto.
+    $this->get('sylius.repository.order');
+    $this->get('sylius.repository.order_item');
+    $this->get('sylius.repository.adjustment');
+
+    // Estos repositorios tienen algunos convenientes métodos predefinidos, por ejemplo...
+    $item = $itemRepository->createNew();
+    $orderRepository->find(4);
+    $paginator = $orderRepository->createPaginator(array('confirmed' => false)); // Obtiene la instancia del Pagerfanta para todos los pedidos no confirmados.

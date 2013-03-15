@@ -25,7 +25,7 @@
     <link rel="shortcut icon" href="../../_static/icotnp.ico"/>
     <link rel="top" title="Sylius en español" href="../../index.html" />
     <link rel="up" title="Referencia de paquetes" href="../index.html" />
-    <link rel="next" title="SyliusAddressingBundle" href="../SyliusAddressingBundle/index.html" />
+    <link rel="next" title="1. Instalando" href="installation.html" />
     <link rel="prev" title="6. Resumen" href="../SyliusCartBundle/summary.html" /> 
   </head>
   <body>
@@ -53,7 +53,7 @@
           <a href="../../genindex.html" title="Índice General"
              accesskey="I">índice</a></li>
         <li class="right" >
-          <a href="../SyliusAddressingBundle/index.html" title="SyliusAddressingBundle"
+          <a href="installation.html" title="1. Instalando"
              accesskey="N">siguiente</a> |</li>
         <li class="right" >
           <a href="../SyliusCartBundle/summary.html" title="6. Resumen"
@@ -72,9 +72,42 @@
             
   <div class="section" id="syliussalesbundle">
 <h1><tt class="docutils literal"><span class="pre">SyliusSalesBundle</span></tt><a class="headerlink" href="#syliussalesbundle" title="Enlazar permanentemente con este título">¶</a></h1>
-<div class="admonition note">
-<p class="first admonition-title">Nota</p>
-<p class="last">Por escribirse.</p>
+<p>Este paquete es el fundamenteo para manejar pedidos en proyectos <em>Symfony2</em>.
+Te permite utilizar cualquier modelo como mercancías.</p>
+<p>También incluye una supercaracterística de flexibles ajustes, la cual sirve como base para cualesquier sistema de impuestos, cargos de embarque o descuentos.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">1. Instalando</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#anadiendo-al-nucleo-los-paquetes-necesarios">1.1. Añadiendo al núcleo los paquetes necesarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#creando-tus-entidades">1.2. Creando tus entidades</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#configurando-el-contenedor">1.3. Configurando el contenedor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#actualizando-el-esquema-de-la-base-de-datos">1.4. Actualizando el esquema de la base de datos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">2. <tt class="docutils literal"><span class="pre">Order</span></tt> y <tt class="docutils literal"><span class="pre">OrderItem</span></tt></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models.html#fundamentos-de-order">2.1. Fundamentos de <tt class="docutils literal"><span class="pre">Order</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#confirmando-es-estado">2.2. Confirmando es estado</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#totales-del-pedido">2.3. Totales del pedido</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#gestion-de-elementos">2.4. Gestión de elementos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#fundamentos-de-orderitem">2.5. Fundamentos de <tt class="docutils literal"><span class="pre">OrderItem</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="adjustments.html">3. Los ajustes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="adjustments.html#ajustes-del-modelo">3.1. Ajustes del modelo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="builder.html">4. Creando pedidos con <tt class="docutils literal"><span class="pre">OrderBuilder</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="services.html">5. Usando los servicios</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services.html#gestores-y-repositorios">5.1. Gestores y repositorios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="summary.html">6. Resumen</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#referencia-de-configuracion">6.1. Referencia de configuración</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#ejemplos-de-phpspec2">6.2. Ejemplos de phpspec2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#seguimiento-de-fallos">6.3. Seguimiento de fallos</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 
@@ -92,7 +125,7 @@
           <a href="../../genindex.html" title="Índice General"
              >índice</a></li>
         <li class="right" >
-          <a href="../SyliusAddressingBundle/index.html" title="SyliusAddressingBundle"
+          <a href="installation.html" title="1. Instalando"
              >siguiente</a> |</li>
         <li class="right" >
           <a href="../SyliusCartBundle/summary.html" title="6. Resumen"
@@ -108,7 +141,7 @@
      
     <div class="footer">
         &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
-      Actualizado por última vez en Mar 10, 2013.
+      Actualizado por última vez en Mar 15, 2013.
       Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
    </div>

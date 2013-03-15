@@ -1,0 +1,267 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Instalando &mdash; Sylius en español</title>
+    
+    <link rel="stylesheet" href="../../_static/tnp.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="shortcut icon" href="../../_static/icotnp.ico"/>
+    <link rel="top" title="Sylius en español" href="../../index.html" />
+    <link rel="up" title="SyliusSalesBundle" href="index.html" />
+    <link rel="next" title="2. Order y OrderItem" href="models.html" />
+    <link rel="prev" title="SyliusSalesBundle" href="index.html" /> 
+  </head>
+  <body>
+  <div class="imalogo">
+    
+    <a href="../../index.html"><img src="http://gitnacho.github.com/tnp/_static/normaltnp.png" alt="Traducciones de Nacho Pacheco" /></a>
+    <div class="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="esymfony" data-lang="es">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div id="searchbox">
+      <form class="searc " action="../../search.html" method="get">
+      <input type="search" name="q" placeholder="Término a buscar" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+    
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="models.html" title="2. Order y OrderItem"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="SyliusSalesBundle"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusSalesBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="instalando">
+<h1>1. Instalando<a class="headerlink" href="#instalando" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Suponemos que estás familiarizado con <a class="reference external" href="http://packagist.org">Composer</a>, un gestor de dependencias para <em>PHP</em>.</p>
+<p>Usa la siguiente orden para añadir el paquete a tu archivo <tt class="file docutils literal"><span class="pre">composer.json</span></tt> y descargarlo.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>composer require sylius/sales-bundle:*
+</pre></div>
+</div>
+<div class="section" id="anadiendo-al-nucleo-los-paquetes-necesarios">
+<h2>1.1. Añadiendo al núcleo los paquetes necesarios<a class="headerlink" href="#anadiendo-al-nucleo-los-paquetes-necesarios" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Primero, debes habilitar el paquete dentro del núcleo.
+Si no estás utilizando ningún otro paquete <tt class="docutils literal"><span class="pre">Sylius</span></tt>, también necesitarás añadir al núcleo el <tt class="docutils literal"><span class="pre">SyliusResourceBundle</span></tt> y sus dependencias.
+No te preocupes, todo será instalado automáticamente vía <em>Composer</em>.</p>
+<p>Si no estás usando <tt class="docutils literal"><span class="pre">FOSRestBundle</span></tt>, entonces también tienes que seleccionar un componente serializador.
+Se recomienda <tt class="docutils literal"><span class="pre">JMSSerializerBundle</span></tt>, lo puedes incluir en tu archivo <tt class="file docutils literal"><span class="pre">composer.json</span></tt> ejecutando la siguiente orden.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>composer require jms/serializer-bundle:0.11.*
+</pre></div>
+</div>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// app/AppKernel.php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">registerBundles</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$bundles</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">FOS\RestBundle\FOSRestBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">JMS\SerializerBundle\JMSSerializerBundle</span><span class="p">(</span><span class="nv">$this</span><span class="p">),</span>
+        <span class="k">new</span> <span class="nx">Sylius\Bundle\ResourceBundle\SyliusResourceBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Sylius\Bundle\MoneyBundle\SyliusMoneyBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Sylius\Bundle\SalesBundle\SyliusSalesBundle</span><span class="p">(),</span>
+
+        <span class="c1">// Otros paquetes...</span>
+        <span class="k">new</span> <span class="nx">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</span><span class="p">(),</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Por favor, registra el paquete antes del <tt class="docutils literal"><span class="pre">DoctrineBundle</span></tt>. Esto es importante al utilizar escuchas que se deben procesar primero.</p>
+</div>
+</div>
+<div class="section" id="creando-tus-entidades">
+<h2>1.2. Creando tus entidades<a class="headerlink" href="#creando-tus-entidades" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Debes crear tu propoa entidad <strong>Order</strong>, que viva dentro del código de tu aplicación.
+Creemos que mantener <strong>lo más simple posible la estructura del paquete en la aplicación específica</strong> es una buena práctica, por lo tanto asumimos que tienes registrado tu <tt class="docutils literal"><span class="pre">AppBundle</span></tt> bajo el espacio de nombres <tt class="docutils literal"><span class="pre">App\Bundle\AppBundle</span></tt>.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// src/App/AppBundle/Entity/Order.php</span>
+<span class="k">namespace</span> <span class="nx">App\AppBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Sylius\Bundle\SalesBundle\Entity\Order</span> <span class="k">as</span> <span class="nx">BaseOrder</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Order</span> <span class="k">extends</span> <span class="nx">BaseOrder</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Ahora necesitas definir una sencilla asociación para esta entidad, porque sólo extiende la superclase asociada de <em>Doctrine</em>.
+Deberías crear un archivo de asociación en tu <tt class="docutils literal"><span class="pre">AppBundle</span></tt>, poniéndolo dentro del directorio de mapeado de <em>Doctrine</em> <tt class="file docutils literal"><span class="pre">src/App/AppBundle/Resources/config/doctrine/Order.orm.xml</span></tt>.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+
+<span class="nt">&lt;doctrine-mapping</span> <span class="na">xmlns=</span><span class="s">&quot;http://doctrine-project.org/schemas/orm/doctrine-mapping&quot;</span>
+                         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+                         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://doctrine-project.org/schemas/orm/doctrine-mapping</span>
+<span class="s">                                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;entity</span> <span class="na">name=</span><span class="s">&quot;App\AppBundle\Entity\Order&quot;</span> <span class="na">table=</span><span class="s">&quot;app_order&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;id</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">column=</span><span class="s">&quot;id&quot;</span> <span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;generator</span> <span class="na">strategy=</span><span class="s">&quot;AUTO&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/id&gt;</span>
+        <span class="nt">&lt;one-to-many</span> <span class="na">field=</span><span class="s">&quot;items&quot;</span> <span class="na">target-entity=</span><span class="s">&quot;Sylius\Bundle\SalesBundle\Model\OrderItemInterface&quot;</span> <span class="na">mapped-by=</span><span class="s">&quot;order&quot;</span> <span class="na">orphan-removal=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;cascade&gt;</span>
+                <span class="nt">&lt;cascade-all/&gt;</span>
+            <span class="nt">&lt;/cascade&gt;</span>
+        <span class="nt">&lt;/one-to-many&gt;</span>
+        <span class="nt">&lt;one-to-many</span> <span class="na">field=</span><span class="s">&quot;adjustments&quot;</span> <span class="na">target-entity=</span><span class="s">&quot;Sylius\Bundle\SalesBundle\Model\AdjustmentInterface&quot;</span> <span class="na">mapped-by=</span><span class="s">&quot;order&quot;</span> <span class="na">orphan-removal=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;cascade&gt;</span>
+                <span class="nt">&lt;cascade-all/&gt;</span>
+            <span class="nt">&lt;/cascade&gt;</span>
+        <span class="nt">&lt;/one-to-many&gt;</span>
+    <span class="nt">&lt;/entity&gt;</span>
+
+<span class="nt">&lt;/doctrine-mapping&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Te podrías preguntar por qué se está poniendo la interfaz dentro del mapeado, puedes leer sobre esta característica de <em>Doctrine</em> <a class="reference external" href="http://gitnacho.github.com/symfony-docs-es/cookbook/doctrine/resolve_target_entity.html">aquí</a>.</p>
+</div>
+<p>Ahora supón que tienes una entidad <em>Producto</em>, la cual representa la principal mercancía de tu tienda <em>web</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Por favor, recuerda que puedes utilizar cualquier otra cosa, aquí <tt class="docutils literal"><span class="pre">Producto</span></tt> solo es un ejemplo obvio, pero este trabaja de manera similar con otras entidades.</p>
+</div>
+<p>Todo lo que necesitas es hacer que tu entidad <em>Producto</em> implemente la <tt class="docutils literal"><span class="pre">SellableInterface</span></tt> y configurarla dentro de las opciones de <em>Symfony</em>.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// src/App/AppBundle/Entity/Product.php</span>
+<span class="k">namespace</span> <span class="nx">App\AppBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Sylius\Bundle\SalesBundle\Model\SellableInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Product</span> <span class="k">implements</span> <span class="nx">SellableInterface</span>
+<span class="p">{</span>
+    <span class="c1">// tu código...</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getSellableName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// Aquí solo tienes que regresar el nombre a mostrar de tu mercancía.</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Ahora, ni siquiera tienes que asociar el modelo de tu <em>Producto</em> para ordenar elementos. Todo se hace automáticamente.
+Y esto sería todo sobre las entidades.</p>
+</div>
+<div class="section" id="configurando-el-contenedor">
+<h2>1.3. Configurando el contenedor<a class="headerlink" href="#configurando-el-contenedor" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Coloca esta configuración dentro de tu archivo <tt class="file docutils literal"><span class="pre">app/config/config.yml</span></tt>.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">sylius_sales</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">driver</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">doctrine/orm</span> <span class="c1"># Configura el controlador del orm de doctrine usado en la documentación.</span>
+    <span class="l-Scalar-Plain">classes</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">sellable</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">model</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">App\AppBundle\Entity\Product</span> <span class="c1"># Your product entity.</span>
+        <span class="l-Scalar-Plain">order</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">model</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">App\AppBundle\Entity\Order</span> <span class="c1"># The order entity.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="actualizando-el-esquema-de-la-base-de-datos">
+<h2>1.4. Actualizando el esquema de la base de datos<a class="headerlink" href="#actualizando-el-esquema-de-la-base-de-datos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Recuerda actualizar el esquema de tu base de datos.</p>
+<p>Para el controlador de «<tt class="docutils literal"><span class="pre">doctrine/orm</span></tt>» ejecuta la siguiente orden:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php app/console doctrine:schema:update --force
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last">¡Esto sólo se debería hacer en el entorno <tt class="docutils literal"><span class="pre">dev</span></tt>! Te recomendamos utilizar las migraciones de <em>Doctrine</em>, para actualizar tu esquema sin incidentes.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div style="width:740px;margin:10px auto;">
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="models.html" title="2. Order y OrderItem"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="SyliusSalesBundle"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
+          <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusSalesBundle</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+  </div>
+
+   <div style="width: 740px; margin: 0 auto;">
+     <div id="disqus_thread"></div>
+     
+    <div class="footer">
+        &copy; Copyright 2011-2013, Paweł Jędrzejewski :: Traducido por Nacho Pacheco.
+      Actualizado por última vez en Mar 15, 2013.
+      Creado con <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+   </div>
+   <script type="text/javascript">
+    var disqus_shortname = 'documentos-mx';
+    var disqus_developer = 1;
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+   </script>
+   <noscript>
+     Por favor activa JavaScript para ver los <a href="http://disqus.com/?ref_noscript">comentarios accionados por Disqus.</a>
+   </noscript>
+
+  </body>
+</html>

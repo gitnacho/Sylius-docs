@@ -1,0 +1,162 @@
+Instalando
+==========
+
+Suponemos que estás familiarizado con `Composer <http://packagist.org>`_, un gestor de dependencias para *PHP*.
+
+Usa la siguiente orden para añadir el paquete a tu archivo :file:`composer.json` y descargarlo.
+
+.. code-block:: bash
+
+    $ composer require sylius/sales-bundle:*
+
+Añadiendo al núcleo los paquetes necesarios
+-------------------------------------------
+
+Primero, debes habilitar el paquete dentro del núcleo.
+Si no estás utilizando ningún otro paquete ``Sylius``, también necesitarás añadir al núcleo el ``SyliusResourceBundle`` y sus dependencias.
+No te preocupes, todo será instalado automáticamente vía *Composer*.
+
+Si no estás usando ``FOSRestBundle``, entonces también tienes que seleccionar un componente serializador.
+Se recomienda ``JMSSerializerBundle``, lo puedes incluir en tu archivo :file:`composer.json` ejecutando la siguiente orden.
+
+.. code-block:: bash
+
+    $ composer require jms/serializer-bundle:0.11.*
+
+.. code-block:: php
+
+    <?php
+
+    // app/AppKernel.php
+
+    public function registerBundles()
+    {
+        $bundles = array(
+            new FOS\RestBundle\FOSRestBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle($this),
+            new Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
+            new Sylius\Bundle\MoneyBundle\SyliusMoneyBundle(),
+            new Sylius\Bundle\SalesBundle\SyliusSalesBundle(),
+
+            // Otros paquetes...
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+        );
+    }
+
+.. note::
+
+    Por favor, registra el paquete antes del ``DoctrineBundle``. Esto es importante al utilizar escuchas que se deben procesar primero.
+
+Creando tus entidades
+---------------------
+
+Debes crear tu propoa entidad **Order**, que viva dentro del código de tu aplicación.
+Creemos que mantener **lo más simple posible la estructura del paquete en la aplicación específica** es una buena práctica, por lo tanto asumimos que tienes registrado tu ``AppBundle`` bajo el espacio de nombres ``App\Bundle\AppBundle``.
+
+.. code-block:: php
+
+    <?php
+
+    // src/App/AppBundle/Entity/Order.php
+    namespace App\AppBundle\Entity;
+
+    use Sylius\Bundle\SalesBundle\Entity\Order as BaseOrder;
+
+    class Order extends BaseOrder
+    {
+    }
+
+Ahora necesitas definir una sencilla asociación para esta entidad, porque sólo extiende la superclase asociada de *Doctrine*.
+Deberías crear un archivo de asociación en tu ``AppBundle``, poniéndolo dentro del directorio de mapeado de *Doctrine* :file:`src/App/AppBundle/Resources/config/doctrine/Order.orm.xml`.
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+
+    <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                             xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                                 http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+        <entity name="App\AppBundle\Entity\Order" table="app_order">
+            <id name="id" column="id" type="integer">
+                <generator strategy="AUTO" />
+            </id>
+            <one-to-many field="items" target-entity="Sylius\Bundle\SalesBundle\Model\OrderItemInterface" mapped-by="order" orphan-removal="true">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many field="adjustments" target-entity="Sylius\Bundle\SalesBundle\Model\AdjustmentInterface" mapped-by="order" orphan-removal="true">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </entity>
+
+    </doctrine-mapping>
+
+.. note::
+
+    Te podrías preguntar por qué se está poniendo la interfaz dentro del mapeado, puedes leer sobre esta característica de *Doctrine* `aquí <http://gitnacho.github.com/symfony-docs-es/cookbook/doctrine/resolve_target_entity.html>`_.
+
+Ahora supón que tienes una entidad *Producto*, la cual representa la principal mercancía de tu tienda *web*.
+
+.. note::
+
+    Por favor, recuerda que puedes utilizar cualquier otra cosa, aquí ``Producto`` solo es un ejemplo obvio, pero este trabaja de manera similar con otras entidades.
+
+Todo lo que necesitas es hacer que tu entidad *Producto* implemente la ``SellableInterface`` y configurarla dentro de las opciones de *Symfony*.
+
+.. code-block:: php
+
+    <?php
+
+    // src/App/AppBundle/Entity/Product.php
+    namespace App\AppBundle\Entity;
+
+    use Sylius\Bundle\SalesBundle\Model\SellableInterface;
+
+    class Product implements SellableInterface
+    {
+        // tu código...
+
+        public function getSellableName()
+        {
+            // Aquí solo tienes que regresar el nombre a mostrar de tu mercancía.
+            return $this->name;
+        }
+    }
+
+Ahora, ni siquiera tienes que asociar el modelo de tu *Producto* para ordenar elementos. Todo se hace automáticamente.
+Y esto sería todo sobre las entidades.
+
+Configurando el contenedor
+--------------------------
+
+Coloca esta configuración dentro de tu archivo :file:`app/config/config.yml`.
+
+.. code-block:: yaml
+
+    sylius_sales:
+        driver: doctrine/orm # Configura el controlador del orm de doctrine usado en la documentación.
+        classes:
+            sellable:
+                model: App\AppBundle\Entity\Product # Your product entity.
+            order:
+                model: App\AppBundle\Entity\Order # The order entity.
+
+Actualizando el esquema de la base de datos
+-------------------------------------------
+
+Recuerda actualizar el esquema de tu base de datos.
+
+Para el controlador de «``doctrine/orm``» ejecuta la siguiente orden:
+
+.. code-block:: bash
+
+    $ php app/console doctrine:schema:update --force
+
+.. warning::
+
+    ¡Esto sólo se debería hacer en el entorno ``dev``! Te recomendamos utilizar las migraciones de *Doctrine*, para actualizar tu esquema sin incidentes.

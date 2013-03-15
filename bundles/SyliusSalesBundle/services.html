@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Usando los servicios &mdash; Sylius en español</title>
+    <title>5. Usando los servicios &mdash; Sylius en español</title>
     
     <link rel="stylesheet" href="../../_static/tnp.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -24,9 +24,9 @@
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <link rel="shortcut icon" href="../../_static/icotnp.ico"/>
     <link rel="top" title="Sylius en español" href="../../index.html" />
-    <link rel="up" title="SyliusAddressingBundle" href="index.html" />
-    <link rel="next" title="4. Resumen" href="summary.html" />
-    <link rel="prev" title="2. Modelos" href="models.html" /> 
+    <link rel="up" title="SyliusSalesBundle" href="index.html" />
+    <link rel="next" title="6. Resumen" href="summary.html" />
+    <link rel="prev" title="4. Creando pedidos con OrderBuilder" href="builder.html" /> 
   </head>
   <body>
   <div class="imalogo">
@@ -53,14 +53,14 @@
           <a href="../../genindex.html" title="Índice General"
              accesskey="I">índice</a></li>
         <li class="right" >
-          <a href="summary.html" title="4. Resumen"
+          <a href="summary.html" title="6. Resumen"
              accesskey="N">siguiente</a> |</li>
         <li class="right" >
-          <a href="models.html" title="2. Modelos"
+          <a href="builder.html" title="4. Creando pedidos con OrderBuilder"
              accesskey="P">anterior</a> |</li>
         <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
           <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
-          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusAddressingBundle</span></tt></a> &raquo;</li> 
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusSalesBundle</span></tt></a> &raquo;</li> 
       </ul>
     </div>
   </div>
@@ -72,10 +72,11 @@
           <div class="body">
             
   <div class="section" id="usando-los-servicios">
-<h1>3. Usando los servicios<a class="headerlink" href="#usando-los-servicios" title="Enlazar permanentemente con este título">¶</a></h1>
-<p>Al utilizar el paquete, tienes acceso a varios útiles servicios.</p>
+<h1>5. Usando los servicios<a class="headerlink" href="#usando-los-servicios" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Al utilizar el paquete, tienes acceso a varios útiles servicios.
+Los puedes utilizar para recuperar y persistir perdidos.</p>
 <div class="section" id="gestores-y-repositorios">
-<h2>3.1. Gestores y repositorios<a class="headerlink" href="#gestores-y-repositorios" title="Enlazar permanentemente con este título">¶</a></h2>
+<h2>5.1. Gestores y repositorios<a class="headerlink" href="#gestores-y-repositorios" title="Enlazar permanentemente con este título">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Nota</p>
 <p class="last"><tt class="docutils literal"><span class="pre">Sylius</span></tt> usa la interfaz <tt class="docutils literal"><span class="pre">Doctrine\Common\Persistence</span></tt>.</p>
@@ -85,38 +86,23 @@
 Interactúas con ellos como normalmente lo haces con tus propias entidades en tu proyecto.</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 
-<span class="c1">// ...</span>
-<span class="k">public</span> <span class="k">function</span> <span class="nf">saveAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="c1">// el ObjectManager es capaz de gestionar el recurso Address.</span>
-    <span class="c1">// Para el controlador *doctrine/orm* este es el EntityManager.</span>
-    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius_addressing.manager.address&#39;</span><span class="p">);</span>
+<span class="c1">// ObjectManager que es capaz de gestinoar recursos.</span>
+<span class="c1">// Para el controlador *doctrine/orm* este es el EntityManager.</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.manager.order&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.manager.order_item&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.manager.adjustment&#39;</span><span class="p">);</span>
 
-    <span class="c1">// el ObjectRepository para el recurso Address, extiende el</span>
-    <span class="c1">// EntityRepository base.</span>
-    <span class="c1">// Puedes utilizar la entidad como habitualmente lo hace el</span>
+<span class="c1">// ObjectRepository para el recurso Order, este extiende al EntityRepository base.</span>
+<span class="c1">// Puedes utilizar la entidad como habitualmente lo hace el</span>
     <span class="c1">// repositorio en el proyecto.</span>
-    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius_addressing.repository.address&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.repository.order&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.repository.order_item&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius.repository.adjustment&#39;</span><span class="p">);</span>
 
-    <span class="c1">// el mismo par para otros recursos de País, Provincia, Zona...</span>
-
-    <span class="c1">// Estos repositorios tienen algunos métodos útiles predefinidos,</span>
-    <span class="c1">// por ejemplo...</span>
-    <span class="nv">$address</span> <span class="o">=</span> <span class="nv">$addressRepository</span><span class="o">-&gt;</span><span class="na">createNew</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="zonematcher">
-<h2>3.2. <tt class="docutils literal"><span class="pre">ZoneMatcher</span></tt><a class="headerlink" href="#zonematcher" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Debido a que las zonas normalmente se utilizan para calcular el impuesto y embarque, puedes utilizar este servicio para conseguir emparejar mejor la zona para una determinada dirección.
-Entonces puedes aplicar el impuesto calculado a la zona emparejada.</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
-
-<span class="c1">// ...</span>
-<span class="nv">$zoneMatcher</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sylius_addressing.zone_matcher&#39;</span><span class="p">);</span>
-
-<span class="nv">$zone</span> <span class="o">=</span> <span class="nv">$zoneMatcher</span><span class="o">-&gt;</span><span class="na">match</span><span class="p">(</span><span class="nv">$address</span><span class="p">);</span>
+<span class="c1">// Estos repositorios tienen algunos convenientes métodos predefinidos, por ejemplo...</span>
+<span class="nv">$item</span> <span class="o">=</span> <span class="nv">$itemRepository</span><span class="o">-&gt;</span><span class="na">createNew</span><span class="p">();</span>
+<span class="nv">$orderRepository</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="nv">$paginator</span> <span class="o">=</span> <span class="nv">$orderRepository</span><span class="o">-&gt;</span><span class="na">createPaginator</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;confirmed&#39;</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">));</span> <span class="c1">// Obtiene la instancia del Pagerfanta para todos los pedidos no confirmados.</span>
 </pre></div>
 </div>
 </div>
@@ -136,14 +122,14 @@ Entonces puedes aplicar el impuesto calculado a la zona emparejada.</p>
           <a href="../../genindex.html" title="Índice General"
              >índice</a></li>
         <li class="right" >
-          <a href="summary.html" title="4. Resumen"
+          <a href="summary.html" title="6. Resumen"
              >siguiente</a> |</li>
         <li class="right" >
-          <a href="models.html" title="2. Modelos"
+          <a href="builder.html" title="4. Creando pedidos con OrderBuilder"
              >anterior</a> |</li>
         <li><a href="../../index.html">Sylius en español</a> &raquo;</li>
           <li><a href="../index.html" >Referencia de paquetes</a> &raquo;</li>
-          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusAddressingBundle</span></tt></a> &raquo;</li> 
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SyliusSalesBundle</span></tt></a> &raquo;</li> 
       </ul>
     </div>
   </div>

@@ -1,0 +1,46 @@
+Resumen
+=======
+
+.. note::
+
+    Por escribirse.
+
+Referencia de configuración
+---------------------------
+
+.. code-block:: yaml
+
+    sylius_sales:
+        driver: ~ # El controlador usado por la capa de persistencia.
+        classes:
+            sellable:
+                model: ~ # El nombre de clase de la entidad que quieres poner dentro del pedido.
+            order:
+                model: ~ # La clase del modelo order.
+                controller: Sylius\Bundle\SalesBundle\Controller\OrderController
+                repository: ~ # Aquí puedes sustituir la clase del repositorio.
+                form: Sylius\Bundle\SalesBundle\Form\Type\OrderType # The form type name to use.
+            order_item:
+                model: ~ # La clase del modelo del elemento order.
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: ~
+                form: Sylius\Bundle\OrderlBundle\Form\Type\OrderItemType # El nombre de la clase del tipo form a usar.
+            adjustment:
+                model: ~ # La opción de la clase del modelo.
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: ~
+                form: Sylius\Bundle\SalesBundle\Form\Type\AdjustmentType
+
+Ejemplos de `phpspec2 <http://phpspec.net>`_
+--------------------------------------------
+
+.. code-block:: bash
+
+    $ composer install --dev --prefer-dist
+    $ bin/phpspec run -fpretty --verbose
+
+Seguimiento de fallos
+---------------------
+
+Este paquete utiliza las `incidencias de GitHub <https://github.com/Sylius/SyliusSalesBundle/issues>`_.
+Si encuentras un fallo, por favor crea una incidencia.

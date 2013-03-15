@@ -1,6 +1,17 @@
 ``SyliusSalesBundle``
 =====================
 
-.. note::
+Este paquete es el fundamenteo para manejar pedidos en proyectos *Symfony2*.
+Te permite utilizar cualquier modelo como mercancías.
 
-    Por escribirse.
+También incluye una supercaracterística de flexibles ajustes, la cual sirve como base para cualesquier sistema de impuestos, cargos de embarque o descuentos.
+
+.. toctree::
+   :numbered:
+
+   installation
+   models
+   adjustments
+   builder
+   services
+   summary
